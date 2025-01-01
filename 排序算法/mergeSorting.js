@@ -32,4 +32,47 @@ const mergeSorting = arr => {
 	const res = merge(sortedA, sortedB)
 	return res
 }
-console.log(mergeSorting([2, 1, 3, 4, 1, 2, 5, 332, 0]))
+
+const mergeSortT2 = arr => {
+	const merge = (arra, arrb) => {
+		let i = 0
+		let j = 0
+		const result = []
+		while (i < arra.length && j < arrb.length) {
+			if (arra[i] < arrb[j]) {
+				result.push(arra[i])
+				i++
+			} else {
+				result.push(arrb[j])
+				j++
+			}
+		}
+		//处理剩余情况
+		while (i < arra.length) {
+			result.push(arra[i])
+			i++
+		}
+		while (j < arrb.length) {
+			result.push(arrb[j])
+			j++
+		}
+		return result
+	}
+
+	const partition = arr => {
+		if (arr.length <= 1) return arr
+		//拆分
+		const middle = Math.floor(arr.length / 2)
+		//左闭右开
+		const part1 = arr.slice(0, middle)
+		const part2 = arr.slice(middle, arr.length)
+		//递归
+		const arr1 = partition(part1)
+		const arr2 = partition(part2)
+		//合并
+		return merge(arr1, arr2)
+	}
+	return partition(arr)
+}
+
+console.log(mergeSortT2([2, 1, 3, 4, 1, 2, 5, 332, 0]))

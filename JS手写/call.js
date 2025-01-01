@@ -28,11 +28,7 @@ Function.prototype.myBind = function (context, ...args1) {
 	//保存当前你this
 	const self = this
 	//处理context
-	context = typeof context === 'object' ? context : Object.create({})
-	//使用symbol为context添加当前函数
-	let key = Symbol()
-	context[key] = this
-	delete context[key]
+	context = context ?? window
 
 	//分为普通函数调用和构造函数调用
 	//要保证返回的函数如果是一个构造函数的话，方法和属性不丢失
@@ -41,13 +37,9 @@ Function.prototype.myBind = function (context, ...args1) {
 
 	const result = function (...arg2) {
 		//特殊处理被当作构造函数使用的情况:当这个函数被当作构造函数使用，这个对象（this）就是这个构造函数的实例
-		if (this instanceof result) {
-			//new操作符干的事情
+		//new操作符干的事情
 
-			return self.apply(this, args1.concat(arg2)) //this对象(使用构造函数创建的对象）上才有type属性
-		} else {
-			return self.apply(context, args1.concat(arg2)) //函数的this是context 作为函数使用是没有type属性的，（没有作为构造函数使用，不产生属性）
-		}
+		return self.apply(this instanceof result ? this : context, args1.concat(arg2)) //this对象(使用构造函数创建的对象）上才有type属性
 	}
 	//避免不小心修改原型
 	result.prototype = Object.create(this.prototype)
@@ -55,6 +47,16 @@ Function.prototype.myBind = function (context, ...args1) {
 	//返回一个函数
 }
 
+Function.prototype.nativeBind = function (context = window, ...args) {
+	//保存当前this
+	const self = this
+	const result = function (...args2) {
+		return self.apply(this instanceof result ? this : context, args.concat(args2))
+	}
+
+	result.prototype = Object.create(this.prototype)
+	return result
+}
 const xiaoming = {
 	name: 'xiaoming',
 }

@@ -4,7 +4,7 @@ const threeNumberSum = (arr, target) => {
 	let p2 = arr.length - 1
 	const result = []
 	//遍历外部两个指针并查重
-	while (p1 + 1 < p2 - 1) {
+	while (p1 + 1 < p2) {
 		let p3 = p1 + 1
 		//遍历内部指针并查重
 		while (p2 > p3) {

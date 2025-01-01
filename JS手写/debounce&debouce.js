@@ -4,13 +4,24 @@
 function debounce(func, delay) {
 	let timer = null
 	return (...args) => {
+		//有定时器的时候重置定时器,没有定时器的时候开启定时器,定时器执行完之后才执行callback
 		if (timer) clearTimeout(timer)
 		timer = setTimeout(() => func.apply(this, args), delay)
 	}
 }
 
+function debounceV2(func, delay) {
+	let timer = null
+	return (...args) => {
+		//取消上一个动作
+		if (timer) clearTimeout(timer)
+		timer = setTimeout(() => {
+			func.apply(this, args)
+		}, delay)
+	}
+}
 const testingDebounce = () => {
-	const testing = debounce(() => console.log('running'), 30)
+	const testing = debounceV2(() => console.log('running'), 30)
 	const testingv2 = () => console.log('running2 ')
 	const interval = setInterval(() => {
 		testing()
@@ -35,6 +46,19 @@ function throttle(func, delay) {
 	}
 }
 
+function throttle(callback, delay) {
+	let timer = null
+	return (...args) => {
+		//只有没有定时器的时候才执行
+		if (!timer) {
+			callback.apply(this.args)
+			timer = setTimeout(() => {
+				timer = null
+			}, delay)
+		}
+		//有定时的时候啥都不做
+	}
+}
 const testtingThrottle = () => {
 	//每30ms只允许执行一次
 	const testing = throttle(() => {
@@ -48,4 +72,5 @@ const testtingThrottle = () => {
 	}, 1000)
 }
 
-testtingThrottle()
+// testtingThrottle()
+testingDebounce()

@@ -16,6 +16,21 @@ const myInstanceof = (instance, targetObject) => {
 	return false
 }
 
+//迭代遍历原型链，直到null或者相等 prototype 是当前对象的prototype
+const v2 = (instance, target) => {
+	if (typeof instance !== 'object' || instance === null) {
+		console.log('Type Error')
+		return false
+	}
+	let proto = Object.getPrototypeOf(instance) //新的静态方法
+	//找到底
+	while (proto !== null) {
+		if (proto === target.prototype) return true
+		else proto = Object.getPrototypeOf(proto)
+	}
+	return false
+}
+
 const testingInstanceof = () => {
 	const arr = [[], [], null, undefined, 3, 'acd']
 	for (let instance of arr) {

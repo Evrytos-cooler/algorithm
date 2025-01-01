@@ -42,3 +42,13 @@ const deepCopyV2 = (obj, map = new WeakMap()) => {
 }
 
 console.log(deepCopyV2([1, 2, 3, 4, 5]))
+
+const deepCopy = (obj, map = new WeakMap()) => {
+	//如果是基础类型 ，返回obj
+	//如果是特殊类型，创建他的对应对象 (Date,RegExp,Array,Map,Set)
+	//防止循环引用, 拷贝过的值放到weakmap中，当再次遇到时，直接返回
+	//for in 遍历 obj
+	//判断是否是自有属性
+	//对自有属性递归调用deepCoye
+	copy[key] = deepCopy(obj[key], map)
+}

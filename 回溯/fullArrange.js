@@ -10,6 +10,7 @@ const fullArrange = arr => {
 		}
 		//确定循环
 		for (let i = 0; i < targetArr.length; i++) {
+			//由于这里传的是引用，所以一定要复制，否则拿不回arr[i]，也可以只复制一个元素
 			const tempArr = targetArr.slice()
 			tempArr.splice(i, 1)
 			temp.push(targetArr[i])
