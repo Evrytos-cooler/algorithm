@@ -61,5 +61,8 @@
 		"enableInlineDocumentation": false,
 		"enableInlineUnitTest": false,
 		"enableInlineExplain": false
+	},
+	"marscode.codeCompletionPro": {
+		"enableCodeCompletionPro": false
 	}
 }

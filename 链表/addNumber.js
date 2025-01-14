@@ -1,84 +1,65 @@
-// Definition for singly-linked list.
-function ListNode(val, next) {
-	this.val = val === undefined ? 0 : val
-	this.next = next === undefined ? null : next
-}
+const addNumber = (head1, head2) => {
+	let node1 = head1
+	let node2 = head2
+	let result = []
+	if (!head1 || !head2) return 0
 
-/**
- * @param {ListNode} l1
- * @param {ListNode} l2
- * @return {ListNode}
- */
-// var addTwoNumbers = function (l1, l2) {
-// 	let flag = 0
-// 	let prev = new ListNode()
-// 	let result = new ListNode()
-// 	//保存头指针，和慢指针
-// 	prev.next = result
-// 	let resultHead = result
-// 	while (l1 || l2) {
-// 		//获取加数，注意判断是否为空
-// 		const val1 = l1?.val ?? 0
-// 		const val2 = l2?.val ?? 0
-// 		//计算余数和进位数,维护结果,先用flag再维护
-// 		result.val = (val1 + val2 + flag) % 10
-// 		flag = Math.floor((val1 + val2 + flag) / 10)
-// 		result.next = new ListNode()
-// 		prev = prev.next
-// 		result = result.next
-// 		//移动指针
-// 		l1 = l1?.next
-// 		l2 = l2?.next
-// 	}
-// 	//处理最后一位数
-// 	if (flag) {
-// 		result.val = flag
-// 	} else {
-// 		prev.next = null
-// 	}
-// 	result = null
-// 	return resultHead
-// }
+	function getLength(head) {
+		let nums = 0
+		while (head) {
+			nums++
+			head = head.next
+		}
+		return nums
+	}
+	const length1 = getLength(head1)
+	const length2 = getLength(head2)
+	if (length1 > length2) {
+		;[length1, length2] = [length2, length1]
+		;[node1, node2] = [node2, node1]
+	}
 
-const addTwoNumbers = (l1, l2) => {
-	//维护一个result 一个resulthead，和一个prev,flag
+	//length1 < length2
 	let flag = 0
-	let result = new ListNode()
-	let prev = new ListNode()
-	let resultHead = result
-	prev.next = result
-	//遍历l1，l2
-	while (l1 || l2) {
-		//计算value
-		const val1 = l1?.val ?? 0
-		const val2 = l2?.val ?? 0
-		const value = val1 + val2 + flag
-		result.val = value % 10
-		//维护flag
-		flag = Math.floor(value / 10)
-		//移动指针 result ,l1 ,l1 ,prev
-		result.next = new ListNode()
-		result = result.next
-		l1 = l1?.next
-		l2 = l2?.next
-		prev = prev.next
+	while (node2) {
+		const num = (node1?.value || 0) + (node2?.value || 0) + flag
+		result.push({ value: num % 10, next: null })
+		flag = Math.floor(num / 10)
+		if (node1) node1 = node1.next
+		node2 = node2.next
 	}
-	//处理最后一个数的特殊情况
-	if (flag) {
-		result.val = flag
-	} else {
-		prev.next = null
-	}
-	//返回resultHead
-	return resultHead
+
+	result.reduce((prev, cur) => {
+		prev.next = cur
+		return cur
+	})
+	return result[0]
 }
-var l1 = new ListNode(2)
-l1.next = new ListNode(4)
-l1.next.next = new ListNode(3)
 
-var l2 = new ListNode(5)
-l2.next = new ListNode(6)
-l2.next.next = new ListNode(4)
-l2.next.next.next = new ListNode(1)
+const node1 = { value: 1, next: null }
+const node2 = { value: 2, next: null }
+const node3 = { value: 3, next: null }
+const node4 = { value: 4, next: null }
+const node5 = { value: 5, next: null }
 
-addTwoNumbers(l1, l2) // 7 -> 0 -> 8 -> 1
+// 链接节点
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+
+const _node1 = { value: 1, next: null }
+const _node2 = { value: 2, next: null }
+const _node3 = { value: 7, next: null }
+const _node4 = { value: 8, next: null }
+const _node5 = { value: 9, next: null }
+const _node6 = { value: 1, next: null }
+
+// 链接节点
+_node1.next = _node2
+_node2.next = _node3
+_node3.next = _node4
+_node4.next = _node5
+_node5.next = _node6
+
+const node = addNumber(node1, _node1)

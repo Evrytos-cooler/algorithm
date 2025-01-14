@@ -1,61 +1,28 @@
-/**
- * @param {string} s
- * @param {number} k
- * @return {string}
- */
-var reverseStr = function (s, k) {
-    s = s.split('')
-    if (k === 0 || s.length < 1) return s
-    let left = 0, right = 2 * k - 1
-    while (right < s.length) {
-        //执行反转
-        let i = left, j = left + k - 1 
-        while (i < j) {
-            const temp = s[i]
-            s[i] = s[j]
-            s[j] = temp
-            i++
-            j--
-        }
-        //移动2k
-        right += 2 * k
-        left += 2 * k
-    }
-
-    let i = left, j = Math.min(left + k -1 , s.length - 1)
-    while (i < j) {
-        const temp = s[i]
-        s[i] = s[j]
-        s[j] = temp
-        i++
-        j--
-    }
-
-    return s.join('')
-};
-
-//简化版
-
-const reverseStr2 = (s,k)=>{
-    s = s.split('')
-    if (k === 0 || s.length < 1) return s
-    let left = 0, right = 2 * k - 1
-
-    while (left < s.length) {
-        //执行反转
-        let i = left,j = Math.min(left + k -1 , s.length - 1) 
-        while (i < j) {
-            const temp = s[i]
-            s[i] = s[j]
-            s[j] = temp
-            i++
-            j--
-        }
-        //移动2k
-        right += 2 * k
-        left += 2 * k
-    }
-
-    return s.join('')
+//直接操作原数组
+const reverse = (arr, start, end) => {
+	let i = start,
+		j = end - 1
+	while (i < j) {
+		const temp = arr[i]
+		arr[i] = arr[j]
+		arr[j] = temp
+		i++
+		j--
+	}
+	return arr
 }
-console.log(reverseStr2("abcdefg", 2))
+const reverseStrBy2K = (arr, k) => {
+	const rest = arr.length % k
+	let i = 0
+	while (i + k <= arr.length) {
+		reverse(arr, i, i + k)
+		i += 2 * k
+	}
+	//两种情况
+	if (rest > 0) {
+		reverse(arr, i, arr.length)
+	}
+	return arr
+}
+
+const result = reverseStrBy2K(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'], 2)

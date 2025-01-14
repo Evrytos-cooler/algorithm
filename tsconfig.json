@@ -7,6 +7,6 @@
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["**/*.ts", "字符串和数组/delete.ts"],
+	"include": ["**/*.ts", "字符串和数组/delete.ts", "字符串和数组/shortedSubArray.js"],
 	"exclude": ["node_modules"]
 }

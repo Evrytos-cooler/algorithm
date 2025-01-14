@@ -1,37 +1,27 @@
-//链表的东西使用虚拟节点就简单多
-const reverseLink = head => {
-	if (!head || !head.next) return -1
-	let prev = null
-	//将第一个节点难以处理的问题交给prev虚拟节点 ,虚拟节点应该是null
-	let current = head
-	while (current) {
-		const next = current.next
-		current.next = prev
-		prev = current
-		current = next
+const reverseLinkV2 = head => {
+	if (!head) return null
+	const fakeHead = null
+	let prev = fakeHead
+	let cur = head
+	while (cur) {
+		const next = cur.next
+		cur.next = prev
+		prev = cur
+		cur = next
 	}
-	//此时prev是尾部节点
-	const result = []
-	let p = prev
-	while (p.next) {
-		result.push(p.value)
-		if (p.next) p = p.next
-	}
-	return result
+	return prev
 }
 
-const link = {
-	value: 1,
-	next: {
-		value: 2,
-		next: {
-			value: 3,
-			next: {
-				value: 4,
-				next: null,
-			},
-		},
-	},
-}
+const node1 = { value: 1, next: null }
+const node2 = { value: 2, next: null }
+const node3 = { value: 3, next: null }
+const node4 = { value: 4, next: null }
+const node5 = { value: 5, next: null }
 
-console.log(reverseLink(link))
+// 链接节点
+node1.next = node2
+node2.next = node3
+node3.next = node4
+node4.next = node5
+
+reverseLinkV2(node1)

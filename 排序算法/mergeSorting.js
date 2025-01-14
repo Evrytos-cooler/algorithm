@@ -76,3 +76,39 @@ const mergeSortT2 = arr => {
 }
 
 console.log(mergeSortT2([2, 1, 3, 4, 1, 2, 5, 332, 0]))
+
+const mergeSortV2 = arr => {
+	const merge = (arra, arrb) => {
+		const res = []
+		let i = 0,
+			j = 0
+		while (i < arra.length && j < arrb.length) {
+			if (arra[i] > arrb[j]) {
+				res.push(arrb[j])
+				j++
+			} else if (arrb[j] >= arra[i]) {
+				res.push(arra[i])
+				i++
+			}
+		}
+		while (i < arra.length) {
+			res.push(arra[i])
+			i++
+		}
+		while (j < arrb.length) {
+			res.push(arrb[j])
+			j++
+		}
+		return res
+	}
+	const partition = arr => {
+		if (arr.length <= 1) return arr
+		const middle = Math.floor(arr.length / 2)
+		const arra = partition(arr.slice(0, middle))
+		const arrb = partition(arr.slice(middle, arr.length))
+		return merge(arra, arrb)
+	}
+	return partition(arr)
+}
+const res = mergeSortV2([9, 1, 3, 1, 4])
+console.log(res)

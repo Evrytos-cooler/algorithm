@@ -1,31 +1,26 @@
-const threeNumberSum = (arr, target) => {
-	arr = arr.sort((a, b) => a - b)
-	let p1 = 0
-	let p2 = arr.length - 1
+const threeNumeberSumV2 = (arr, target) => {
+	if (arr.length < 4) return
+	arr = arr.sort((a, b) => a - b) //升序排序
+	let i = 0
 	const result = []
-	//遍历外部两个指针并查重
-	while (p1 + 1 < p2) {
-		let p3 = p1 + 1
-		//遍历内部指针并查重
-		while (p2 > p3) {
-			const sum = arr[p1] + arr[p2] + arr[p3]
-			if (sum > target) {
-				p2--
-			} else if (sum < target) {
-				p3++
-			} else {
-				result.push([arr[p1], arr[p2], arr[p3]])
-				p1++
-				p2--
-				while (arr[p1] === arr[p1 - 1]) {
-					p1++
-				}
-				while (arr[p2] === arr[p2 + 1]) {
-					p2--
-				}
+	while (i < arr.length - 2) {
+		let left = i + 1
+		let right = arr.length - 1
+		while (left < right) {
+			const sum = arr[left] + arr[right] + arr[i]
+			if (sum < target) left++
+			if (sum > target) right--
+			if (sum === target) {
+				result.push([arr[i], arr[left], arr[right]])
+				left++
+				right--
+				while (arr[left] === arr[left - 1]) left++
+				while (arr[right] === arr[right + 1]) right--
 			}
 		}
+		i++
+		while (arr[i] === arr[i - 1]) i++
 	}
 	return result
 }
-console.log(threeNumberSum([-1, 3, 6, 0, 1, -6, 2], 0))
+console.log(threeNumeberSumV2([-2, -1, 0, 1, 2, 3], 0))
