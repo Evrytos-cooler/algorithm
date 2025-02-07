@@ -1,27 +1,20 @@
-//使用原生xhr封装ajax
-const ajax = (url, method = 'GET', data) => {
-	//初始化xhr对象
-	const xhr = new XMLHttpRequest()
-	//绑定onreadystatechange事件
-	xhr.onreadystatechange = function () {
-		//判断链接状态
-		if (xhr.readyState === 4) {
-			if (xhr.status >= 200 && xhr.status < 300) {
-				console.log('success')
-				return xhr.response
-			} else {
-				console.log('error')
-				return xhr.response
-			}
-		}
-	}
-	//打开链接
-	xhr.open(method, url, true)
-	//发送请求
-	xhr.send(data)
-}
-
 // 1 初始化
 // 2 绑定事件 判断返回 readyStatus & status
 // 3 开启通道
 // 4 发送请求
+const ajax = (url, method = 'GET', data) => {
+	const xhr = new XMLHttpRequest()
+	xhr.onreadystatechange = function () {
+		if (xhr.readyState === 4) {
+			if (xhr.status >= 200 && xhr.status < 300) {
+				//success
+				return xhr.response
+			} else {
+				//failed
+				return xhr.response
+			}
+		}
+	}
+	xhr.open(method, url, true) //异步
+	xhr.send(data)
+}

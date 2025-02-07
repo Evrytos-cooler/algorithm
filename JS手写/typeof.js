@@ -1,11 +1,10 @@
-//实现类型判断函数
-function nativeTypeof(target) {
-	//不是对象
-	// 是对象
-	if (target === null) return 'null'
-	return Object.prototype.toString.call(target).slice(8, -1).toLowerCase()
+// 直接调用object原型上的toString，避免调用重写后的tostring
+//slice 可用于数组和字符串但是splice不可用于字符串
+const nativeTypeof = value => {
+	return Object.prototype.toString.call(value).slice(8, -1).toLowerCase()
 }
 console.log(nativeTypeof(''))
 console.log(nativeTypeof([]))
 console.log(nativeTypeof({}))
 console.log(nativeTypeof(10))
+console.log(nativeTypeof(null))
