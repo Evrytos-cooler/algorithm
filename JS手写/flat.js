@@ -1,48 +1,45 @@
-const flat = arr => {
-	const stack = [...arr]
-	const result = []
-	while (stack.length !== 0) {
-		const target = stack.pop()
-		if (Array.isArray(target)) {
-			stack.push(...target)
-		} else {
-			result.push(target)
-		}
-	}
-	return result.reverse()
-}
-
-const flatV2 = arr => {
-	const stack = []
-	const result = []
-	stack.push(...arr)
-	while (stack.length) {
-		const target = stack.pop()
-		if (Array.isArray(target)) {
-			target.forEach(item => {
-				stack.push(item)
-			})
-		} else {
-			result.push(target)
-		}
-	}
-	return result.reverse()
-}
-console.log(flatV2([1, 2, 3, [4, 5, 6, [7, 8, 9]]])) // => [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
-
 const flatArray = arr => {
-	const flat = arr => {
-		const result = []
-		for (let item of arr) {
+	const result = []
+	//reduce
+	const reduceFlat = arr => {
+		return arr.reduce((prev, cur) => {
+			return prev.concat(Array.isArray(cur) ? reduceFlat(cur) : cur)
+		}, [])
+	}
+	result.push(reduceFlat(arr))
+	//foreach
+	const forEachFlat = arr => {
+		const res = []
+		arr.forEach(item => {
 			if (Array.isArray(item)) {
-				result.push(...flat(item))
+				res.push(...forEachFlat(item))
 			} else {
-				result.push(item)
+				res.push(item)
+			}
+		})
+		return res
+	}
+	result.push(forEachFlat(arr))
+	//Regular Express
+	const Reflat = arr => {
+		const str = JSON.stringify(arr)
+		const target = '[' + str.replace(/\[|\]/, '') + ']'
+		return JSON.parse(target)
+	}
+	result.push(Reflat(arr))
+	//traversal
+	const traversalFlat = arr => {
+		const res = []
+		for (let i = 0; i < arr.length; i++) {
+			if (Array.isArray(arr[i])) {
+				res.push(...traversalFlat(arr[i]))
+			} else {
+				res.push(arr[i])
 			}
 		}
-		return result
+		return res
 	}
-	return flat(arr)
+	result.push(traversalFlat(arr))
+	return result
 }
-
 console.log(flatArray([1, 2, 3, [4, 5, 6, [7, 8, 9]]])) // => [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]

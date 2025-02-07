@@ -20,3 +20,8 @@ const ajax = (url, method = 'GET', data) => {
 	//发送请求
 	xhr.send(data)
 }
+
+// 1 初始化
+// 2 绑定事件 判断返回 readyStatus & status
+// 3 开启通道
+// 4 发送请求
