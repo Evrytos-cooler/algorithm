@@ -1,3 +1,13 @@
+// 浅拷贝
+// 不需要递归执行，只拷贝一层
+const shallowCopy = obj => {
+	if (typeof obj !== 'object' || obj === null) return
+	const copy = Array.isArray(obj) ? [] : {}
+	for (let key of Object.keys(obj)) {
+		copy[key] = obj[key]
+	}
+	return copy
+}
 // 保存特殊类型
 // 处理循环引用
 // 只取本身属性
@@ -29,4 +39,5 @@ const deepCopy = (obj, map = new WeakMap()) => {
 	}
 	return copy
 }
-console.log(deepCopy([1, 2, 3, 4, 5]))
+console.log(deepCopy([1, 2, 3, 4, { a: 1, b: 2 }]))
+console.log(shallowCopy([1, 2, 3, 4, 5, { a: 1, b: 2 }]))
