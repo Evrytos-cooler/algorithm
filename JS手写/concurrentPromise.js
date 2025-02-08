@@ -1,91 +1,90 @@
-//promise并发或者PromisePool
-// 1 接受一个PromiseList
-// 2 接受一个并发数 concurrentCount
-// 3 内部维护正在运行的数量runCount和未运行的任务列表PromiseList
-// 4 当并发数变化的时候或者初始化的时候添加任务 (订阅发布模式） ：conCurrentCount - runCount
+// 核心逻辑 1 调度器在promise落定的时候递归，计算当前能够执行的个数
+// 核心逻辑 2 PromisePool的状态所有promise落定的时候改变，返回所有result组成的数组
 class PromisePool {
 	constructor(maxConcurrent, promiseList) {
-		this.promiseList = promiseList.map((item, index) => ({ index, item }))
-		this.jobSum = promiseList.length
 		this.maxConcurrent = maxConcurrent
-		this.completeCount = 0
-		this.runCount = 0
-		this.allResolve = null
+		this.promiseList = promiseList.map((item, index) => {
+			return { item, index }
+		})
+		this.promiseLength = promiseList.length
+		this.runningCount = 0
+		this.settleCount = 0
+		this.allSettle = undefined
 		this.result = []
-	}
-
-	getResult() {
-		return new Promise(resolve => {
-			this.allResolve = resolve
+		this.promise = new Promise(resolve => {
+			this.allSettle = resolve
 		})
 	}
 
 	run() {
-		//计算需要执行的数量
 		const readyToRun = Math.min(
 			this.promiseList.length,
-			this.maxConcurrent - this.runCount
+			this.maxConcurrent - this.runningCount
 		)
-
 		for (let i = 0; i < readyToRun; i++) {
-			this.runCount++
-			const targetPromise = this.promiseList.shift()
-			targetPromise
+			const target = this.promiseList.shift()
+			this.runningCount++
+			target
 				.item()
 				.then(res => {
-					this.result[targetPromise.index] = res
+					this.result[target.index] = res
 				})
-				.catch(err => {
-					this.result[targetPromise.index] = err
+				.catch(e => {
+					this.result[target.index] = e
 				})
 				.finally(() => {
-					this.completeCount++
-					this.runCount--
-					if (this.completeCount === this.jobSum) {
-						//已经完成可以出发resolve
-						this.allResolve(this.result)
+					this.settleCount++
+					this.runningCount--
+					if (this.settleCount === this.promiseLength) {
+						this.allSettle(this.result)
 					} else {
 						this.run()
 					}
 				})
 		}
+		return this.promise
 	}
 }
-
 function concurrentPromsie(maxConcurrent, promiseList) {
-	const _promiseList = promiseList.map((item, index) => ({ index, item }))
-	const result = []
-	let allResovle
-	for (let i = 0; i < maxConcurrent; i++) {
-		run()
-	}
+	const proimseLength = promiseList.length
+	promiseList = promiseList.map((item, index) => {
+		return { item, index }
+	})
+	let runningCount = 0
+	let settleCount = 0
+	let allsettle = null
+	let result = []
+	let promise = new Promise(resolve => {
+		allsettle = resolve
+	})
+
 	function run() {
-		//从_promiseList中取出一个任务,执行后有条件的调用run
-		new Promise(resolve => {
-			const promiseTarget = _promiseList.shift()
-			resolve(
-				promiseTarget
-					.item()
-					.then(res => {
-						result[promiseTarget.index] = res
-					})
-					.catch(err => {
-						result[promiseTarget.index] = err
-					})
-			)
-		}).then(() => {
-			if (_promiseList.length) {
-				run()
-			} else {
-				//这里注意，应为可能有多个Promise都在执行中，此时已经没有任务待启动，但是不是所有的任务都完成了
-				if (result.length === promiseList.length) allResovle(result)
-			}
-		})
+		const readyToRun = Math.min(promiseList.length, maxConcurrent - runningCount)
+		for (let i = 0; i < readyToRun; i++) {
+			runningCount++
+			const target = promiseList.pop()
+			target
+				.item()
+				.then(res => {
+					result[target.index] = res
+				})
+				.catch(e => {
+					result[target.index] = e
+				})
+				.finally(() => {
+					runningCount--
+					settleCount++
+					if (settleCount === proimseLength) {
+						allsettle(result)
+					} else {
+						run()
+					}
+				})
+		}
+		return promise
 	}
 
-	return new Promise(resolve => {
-		allResovle = resolve
-	})
+	return run()
 }
 
 const func1 = async () =>
@@ -166,7 +165,8 @@ const func10 = async () =>
 			resolve(10)
 		}, 1000)
 	})
-// const promisePool = new PromisePool(5, [
+
+// const promisePool = new PromisePool(3, [
 // 	func1,
 // 	func2,
 // 	func3,
@@ -179,10 +179,7 @@ const func10 = async () =>
 // 	func10,
 // ])
 
-// promisePool.getResult().then(res => {
-// 	console.log(res)
-// })
-// promisePool.run()
+// promisePool.run().then(res => console.log(res))
 
 concurrentPromsie(2, [
 	func1,
