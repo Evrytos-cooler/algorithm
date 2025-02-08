@@ -1,25 +1,24 @@
-//接受两个参数
-Array.prototype.nativeReduce = function (callback, initialValue) {
-	const accumulator = initialValue ?? this[0]
+Array.prototype.myReduce = function (callback, init) {
+	let accumulator = init ?? this[0]
 	for (let i = 0; i < this.length; i++) {
-		//callback接受参数：累加器，当前值，当前索引，数组本身
 		accumulator = callback(accumulator, this[i], i, this)
 	}
 	return accumulator
 }
 
-Array.prototype.myReduce = function (callback, initialValue) {
-	//初始化默认参数
-	let accumulator = initialValue ?? this[0]
+Array.prototype.myMap = function (callback) {
+	const result = []
 	for (let i = 0; i < this.length; i++) {
-		accumulator = callback(accumulator, this[i], i, this)
+		result.push(callback(this[i], i, this))
 	}
+	return result
 }
-//接收一个回调，回调接收两个参数，一个是item，一个是index，返回值作为数组新元素返回一个数组，不修改原来的值
-Array.prototype.nativeMap = function (callback) {
-	const newArray = []
-	for (let i = 0; i < this.length; i++) {
-		newArray.push(callback(this[i], i, this))
-	}
-	return newArray
-}
+
+const array = [1, 1, 3, 4, 5]
+const result1 = array.myReduce((prev, curr) => {
+	prev[String(curr)] = curr
+	return prev
+}, {})
+const result2 = array.map((item, key) => {
+	return `${item}-${key}`
+})
