@@ -1,46 +1,43 @@
-// 发布订阅模式
-// on 方法订阅：将fn添加到缓存中
-// off 方法取消订阅：将fn从缓存中删除
-// emit 方法发布：依次执行缓存中的函数
-class EventEmitter {
+class eventEmitter {
 	constructor(value) {
-		this.funcList = []
 		this.value = value ?? {}
-	}
-
-	emit(params) {
-		this.funcList.forEach(func => {
-			func(params, this.value)
-		})
+		this.callbacks = []
 	}
 
 	on(func) {
 		if (typeof func !== 'function') {
-			throw new Error('func must be a function')
+			throw new Error('TypeError')
 		} else {
-			this.funcList.push(func)
+			this.callbacks.push(func)
 		}
 	}
 
 	off(func) {
 		if (typeof func !== 'function') {
-			throw new Error('func must be a function')
+			throw new Error('TypeError')
 		} else {
-			const index = this.funcList.findIndex(item => item === func)
-			this.funcList.splice(index, 1)
+			this.callbacks = this.callbacks.filter(f => f !== func)
 		}
+	}
+
+	emit(data) {
+		this.callbacks.forEach(func => {
+			func(data, this.value)
+		})
 	}
 }
 
-const numberCount = new EventEmitter({ count: 0 })
-function a(params, value) {
-	console.log('a', value.count, params)
+const bus = new eventEmitter({ count: 0 })
+const a = params => {
+	console.log('a' + params)
 }
-numberCount.on(a)
+bus.on(a)
 
-numberCount.on(function b(params, value) {
-	console.log('b', value.count, params)
-})
-numberCount.emit('first')
-numberCount.off(a)
-numberCount.emit('second')
+const b = params => {
+	console.log('b' + params)
+}
+bus.on(b)
+
+bus.emit('1')
+bus.off(a)
+bus.emit('2')

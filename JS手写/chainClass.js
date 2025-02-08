@@ -1,42 +1,42 @@
-class Person {
+class ChainRun {
 	constructor() {
-		this.list = []
-		this.freeze = false
+		this.chain = []
+		this.lockRelease = false
 	}
-	eat() {
-		if (this.freeze === false) {
-			console.log('eat')
+
+	func1(callback) {
+		if (typeof callback !== 'function') throw new Error('TypeError')
+		if (this.lockRelease) {
+			callback()
 		} else {
-			this.list.push(() => {
-				console.log('eat')
-				return this
-			})
+			this.chain.push(callback)
 		}
 		return this
 	}
-	walk() {
-		if (this.freeze === false) {
-			console.log('walk')
+
+	func2(callback) {
+		if (typeof callback !== 'function') throw new Error('TypeError')
+		if (this.lockRelease) {
+			callback()
 		} else {
-			this.list.push(() => {
-				console.log('walk')
-				return this
-			})
+			this.chain.push(callback)
 		}
 		return this
 	}
-	sleep() {
-		this.freeze = true
-		console.log('sleep')
+
+	settle(callback) {
+		if (typeof callback !== 'function') throw new Error('TypeError')
+		this.chain.push(callback)
 		setTimeout(() => {
-			this.freeze = false
-			while (this.list.length) {
-				this.list.shift()()
-			}
+			this.lockRelease = true
+			this.chain.forEach(func => func())
 		}, 1000)
 		return this
 	}
 }
 
-const person = new Person()
-person.walk().eat().sleep().eat()
+const chain = new ChainRun()
+const f = x => () => {
+	console.log(x)
+}
+chain.func1(f(1)).func2(f(2)).settle(f(3)).func1(f(4)).func2(f(5))
