@@ -1,6 +1,6 @@
 // 浅拷贝
 // 不需要递归执行，只拷贝一层
-const shallowCopy = obj => {
+export const shallowCopy = obj => {
 	if (typeof obj !== 'object' || obj === null) return
 	const copy = Array.isArray(obj) ? [] : {}
 	for (let key of Object.keys(obj)) {
@@ -11,7 +11,7 @@ const shallowCopy = obj => {
 // 保存特殊类型
 // 处理循环引用
 // 只取本身属性
-const deepCopy = (obj, map = new WeakMap()) => {
+export const deepCopy = (obj, map = new WeakMap()) => {
 	//如果是基础类型 ，返回obj
 	//如果是特殊类型，创建他的对应对象 (Date,RegExp,Array,Map,Set)
 	//防止循环引用, 拷贝过的值放到weakmap中，当再次遇到时，直接返回
@@ -19,7 +19,7 @@ const deepCopy = (obj, map = new WeakMap()) => {
 	//判断是否是自有属性
 	//对自有属性递归调用deepCoye
 	let copy = {}
-	if (typeof obj !== 'object') return obj
+	if (typeof obj !== 'object' || !obj) return obj
 	if (obj instanceof Array) copy = []
 	if (obj instanceof Date) copy = new Date(obj)
 	if (obj instanceof RegExp) copy = new RegExp(obj)
