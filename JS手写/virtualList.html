@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div
+			id="virtual-list-container"
+			style="height: 300px; overflow: auto; width: 300px">
+			<div id="virtual-list-content">
+				<!-- 这里动态生成内容 -->
+			</div>
+		</div>
+	</body>
+</html>
+
+<script>
+	const container = document.getElementById('virtual-list-container')
+	const content = document.getElementById('virtual-list-content')
+	const dataSource = Array.from({ length: 1000 }, (_, index) => ({
+		id: index,
+		content: `Item ${index}`,
+	}))
+	const itemHeight = 50
+	const containerHeight = container.clientHeight
+	const viewPortHeight = containerHeight
+	let itemsPerViewPort = Math.ceil(viewPortHeight / itemHeight)
+	content.style.minHeight = `${dataSource.length * itemHeight}px`
+	content.style.position = 'relative' // 设置为相对定位
+	let html = ''
+	for (let i = 0; i < 7; i++) {
+		if (i >= dataSource.length) break // 超出数据范围时停止
+		html += `
+            <div class="item" style="height: ${itemHeight}px; position: absolute; top: ${
+			i * itemHeight
+		}px;">${dataSource[i].content}</div>
+        `
+	}
+	content.innerHTML = html
+	// 确保滚动条可以滚动到底部
+	content.style.minHeight = `${dataSource.length * itemHeight}px`
+	container.addEventListener('scroll', () => {
+		// 当前滚动的位置
+		const scrollTop = container.scrollTop
+		// 当前可视区域的起始索引
+		const start = Math.floor(scrollTop / itemHeight)
+		// 当前可视区域的结束索引
+		const end = start + itemsPerViewPort
+		// 生成可视区域的内容
+		let html = ''
+		for (let i = start; i < end + 1; i++) {
+			if (i >= dataSource.length) break // 超出数据范围时停止
+			html += `
+            <div class="item" style="height: ${itemHeight}px; position: absolute; top: ${
+				i * itemHeight
+			}px;">${dataSource[i].content}</div>
+            `
+		}
+		// 设置内容
+		content.innerHTML = html
+		// 确保滚动条可以滚动到底部
+		content.style.minHeight = `${dataSource.length * itemHeight}px`
+	})
+</script>
