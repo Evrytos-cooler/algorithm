@@ -64,5 +64,7 @@
 	},
 	"marscode.codeCompletionPro": {
 		"enableCodeCompletionPro": false
-	}
+	},
+	"debug.javascript.autoAttachFilter": "always",
+	"debug.allowBreakpointsEverywhere": true
 }
