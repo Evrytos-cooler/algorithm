@@ -1,5 +1,5 @@
-import treeGenerate from '../二叉树/generateTree.js'
-import { deepCopy } from '../JS手写/copy.js'
+import treeGenerate from '../../二叉树/generateTree.js'
+import { deepCopy } from '../../JS手写/copy.js'
 const treeRobbring = tree => {
 	let target = {}
 	target = deepCopy(tree)

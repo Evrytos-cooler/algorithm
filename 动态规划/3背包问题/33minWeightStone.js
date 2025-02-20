@@ -25,4 +25,4 @@ const minWeightStone = arr => {
 	const result = _sum - 2 * dp[arr.length - 1][sum]
 	return result
 }
-console.log(minWeightStone([1, 2]))
+console.log(minWeightStone([1, 2, 3, 4]))
