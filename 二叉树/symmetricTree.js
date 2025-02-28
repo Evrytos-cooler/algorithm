@@ -1,31 +1,47 @@
 import TreeNode from './generateTree.js'
 //递归法
-const symmetricTree = (left, right) => {
-	//停止逻辑
-	if (!left && !right) return true
-	else if (!left && right) return false
-	else if (left && !right) return false
-	else if (left.val !== right.val) return false
-	//当层遍历逻辑
-	const outside = symmetricTree(left.left, right.right)
-	const inside = symmetricTree(left.right, right.left)
-	//返回值
-	return inside && outside
+const isSymmetricTree = root => {
+	const traversal = (left, right) => {
+		if (!left && !right) return true
+		if (!left && right) return false
+		if (left && !right) return false
+		if (left.val !== right.val) return false
+		const leftTree = traversal(left.left, right.right)
+		const rightTree = traversal(left.right, right.left)
+		return leftTree && rightTree
+	}
+	if (!root) return true
+	return traversal(root.left, root.right)
 }
 
 //层序遍历法
-const symmetricTreeV2 = root => {
-	const queue = [root]
-	while (queue.length) {
-		const length = queue.length
-		for (let i = 0; i < length; i++) {
-			const node = queue.shift()
-			node.left && queue.push(node.left)
-			node.right && queue.push(node.right)
+const isSymmetricTreeV2 = root => {
+	const isSymmetric = arr => {
+		let i = 0,
+			j = arr.length - 1
+		while (i <= j) {
+			if (arr[i] !== arr[j]) return false
+			i++
+			j--
 		}
-		const list = queue.map(i => i?.val ?? '')
-		if (!(list.reverse().join('') === list.join(''))) return false
+		return true
 	}
+
+	if (!root) return true
+	const stack = [root]
+	while (stack.length) {
+		let length = stack.length
+		for (let i = 0; i < length; i++) {
+			const node = stack.shift()
+			if (!node) continue
+			if (node.left) stack.push(node.left)
+			else stack.push(null)
+			if (node.right) stack.push(node.right)
+			else stack.push(null)
+		}
+		if (!isSymmetric(stack.map(item => item?.val))) return false
+	}
+
 	return true
 }
 
@@ -38,7 +54,7 @@ root.left.right = new TreeNode(4)
 // 创建右子树
 root.right = new TreeNode(2)
 root.right.left = new TreeNode(4)
-root.right.right = new TreeNode(null)
+root.right.right = new TreeNode(3)
 
-console.log(symmetricTree(root.left, root.right))
-console.log(symmetricTreeV2(root))
+console.log(isSymmetricTree(root))
+console.log(isSymmetricTreeV2(root))

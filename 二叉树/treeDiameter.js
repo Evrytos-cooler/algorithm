@@ -1,31 +1,29 @@
 import TreeNode from './generateTree.js'
-// 计算直径，需要用左右子树的最大深度，所以要用到后续遍历
-const treeDiameter = node => {
+const treeDiameter = root => {
+	let result = 0
 	const traversal = node => {
 		if (!node) return 0
-		let left = traversal(node.left)
-		let right = traversal(node.right)
+		const left = traversal(node.left)
+		const right = traversal(node.right)
+		result = Math.max(result, left + right + 1)
 		return Math.max(left, right) + 1
 	}
-	const getDiameter = node => {
-		if (!node) return 0
-		let left = traversal(node.left)
-		let right = traversal(node.right)
-		return left + right + 1
-	}
-	return getDiameter(node)
+	traversal(root)
+	if (!root) return 0
+	// 注意是以节点为1还是以边为1
+	return result - 1
 }
 
 const bst2 = new TreeNode(
 	4,
 	new TreeNode(2, new TreeNode(1), new TreeNode(3)),
-	new TreeNode(6, null, new TreeNode(7))
+	new TreeNode(6, null)
 ) // 结构：
 //     4
 //   /   \
 //  2     6
-// / \     \
-//1   3     7
+// / \
+//1   3
 const bst3 = new TreeNode(1, null, new TreeNode(2, null, new TreeNode(3)))
 // 结构：
 // 1

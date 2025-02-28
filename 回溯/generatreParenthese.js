@@ -2,29 +2,28 @@
 // 这是一个有剪枝操作的回溯 对左右括号数做约束。而且必须是'('开始的
 
 const generateParenthese = n => {
-	let result = []
+	if (n === 0) return ''
+	const result = []
 	let temp = []
-	const backTrace = (left, right) => {
-		// 剪枝
+	const traceBack = (left, right) => {
 		if (left < right || left > n) return
-		//结束条件
 		if (left === n && right === n) {
-			result.push(temp.join('').slice())
-			return
+			result.push(temp.join(''))
 		}
 		if (left < n) {
 			temp.push('(')
-			backTrace(left + 1, right) //传参这里其实已经包含了回溯
+			traceBack(left + 1, right)
 			temp.pop()
 		}
 		if (right < n) {
 			temp.push(')')
-			backTrace(left, right + 1)
+			traceBack(left, right + 1)
 			temp.pop()
 		}
 	}
-	backTrace(0, 0)
+
+	traceBack(0, 0)
 	return result
 }
-
 console.log(generateParenthese(4))
+console.log(generateParentheseV2(4))

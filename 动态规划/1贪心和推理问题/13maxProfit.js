@@ -1,19 +1,12 @@
-// 买卖股票的最佳时机
-// dp[i][0] 当前持有股票的最低支出
-// dp[i][1] 当前不持有股票的最大利润
-
+// dp[i][0]表示当前持有 持有可能是当前买入或者前一天已经买入
+// dp[i][1]表示当前不持有 不持有可能是当前卖出或者前一天已经卖出
 const maxProfit = arr => {
-	const dp = []
-	for (let i = 0; i < arr.length; i++) {
-		dp[i] = []
-	}
+	const dp = new Array(arr.length).fill(() => new Array(2).fill(0))
 	dp[0][0] = -arr[0]
 	dp[0][1] = 0
 
 	for (let i = 1; i < arr.length; i++) {
-		// 最低购入价
 		dp[i][0] = Math.max(dp[i - 1][0], -arr[i])
-		// 最大利润
 		dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] + arr[i])
 	}
 	return dp[arr.length - 1][1]
@@ -21,11 +14,11 @@ const maxProfit = arr => {
 // 贪心方法
 // 遍历一次数组，记录最小值，同时记录result，由于只能先买后卖，同一个循环中就能够计算买入和卖出
 const greedy = arr => {
-	let result = -9999
-	let min = 9999
+	let result = -Infinity
+	let min = Infinity
 	for (let i = 0; i < arr.length; i++) {
 		min = Math.min(arr[i], min)
-		result = Math.max(arr[i] - min, result)
+		result = Math.max(result, arr[i] - min)
 	}
 	return result
 }
