@@ -1,23 +1,24 @@
 const largestRectangleArea = _ => {
-	const stack = [0] //推入的是下标
+	if (!_.length) return 0
 	const arr = [0, ..._, 0]
-	let largestArea = 0
+	const stack = [0]
+	let max = 0
 	for (let i = 1; i < arr.length; i++) {
-		const target = arr[i]
-		if (target >= arr[stack[stack.length - 1]]) {
+		// 栈底到栈顶是单调增的，找到左右都小的时候就是能够计算的时候
+		if (arr[i] >= arr[stack[stack.length - 1]]) {
 			stack.push(i)
 		} else {
-			while (target < arr[stack[stack.length - 1]]) {
-				//左i中popOne右stackTop
+			// 计算结果
+			while (arr[i] < arr[stack[stack.length - 1]]) {
 				const popOne = stack.pop()
-				const stackTop = stack[stack.length - 1]
-				const width = i - stackTop - 1
-				const area = width * arr[popOne]
-				largestArea = largestArea > area ? largestArea : area
+				const left = stack[stack.length - 1]
+				const height = arr[popOne]
+				max = Math.max(max, (i - left - 1) * height)
 			}
 			stack.push(i)
 		}
 	}
-	return largestArea
+	return max
 }
-console.log(largestRectangleArea([2, 1, 5, 6, 2, 3]))
+// console.log(largestRectangleArea([2, 1, 5, 6, 2, 3]))
+export default largestRectangleArea
