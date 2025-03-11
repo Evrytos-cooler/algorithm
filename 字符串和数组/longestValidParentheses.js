@@ -47,19 +47,19 @@ const longestValidParenthesesV2 = arr => {
 		j = 0
 	let map = new Map()
 	// 右边界做key，左边界做value
+	let max = 0
 	while (true) {
 		const [_i, _j] = findParentheses(j)
 		if (_i === -1) break
 		;[i, j] = [_i, _j]
 		;[i, j] = expend(i, j)
-		if (map.has(i - 1)) {
-			;[i, j] = [map.get(i - 1), j]
+		while (map.has(i - 1)) {
+			;[i, j] = expend(map.get(i - 1), j)
 		}
 		map.set(j, i)
-		;[i, j] = expend(i, j)
+		max = Math.max(max, j - i + 1)
 	}
-	if (i === j) return 0
-	return j - i + 1
+	return max
 }
 
-console.log(longestValidParenthesesV2('((()))())'))
+console.log(longestValidParenthesesV2(')(())(()()))('))
