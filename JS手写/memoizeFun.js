@@ -1,5 +1,14 @@
+// 利用闭包保存 params - result 对
 function memoize(fn) {
-	// 实现代码
+	const map = new Map()
+	return function (...params) {
+		if (map.has(JSON.stringify(params))) return map.get(JSON.stringify(params))
+		else {
+			const result = fn(...params)
+			map.set(JSON.stringify(params), result)
+			return result
+		}
+	}
 }
 
 // 示例用法
