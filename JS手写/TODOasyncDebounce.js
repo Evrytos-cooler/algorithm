@@ -5,7 +5,7 @@ function debounce(fn, delay) {
 	let timer
 	return function (...arg) {
 		return new Promise((resolve, reject) => {
-			
+				
 		})
 	}
 }

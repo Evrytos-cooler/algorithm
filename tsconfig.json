@@ -11,7 +11,8 @@
 		"**/*.ts",
 		"字符串和数组/delete.ts",
 		"字符串和数组/shortedSubArray.js",
-		"单调栈/nextBiggerI.js"
+		"单调栈/nextBiggerI.js",
+		"库实现/reactDiff.js"
 	],
 	"exclude": ["node_modules"]
 }
