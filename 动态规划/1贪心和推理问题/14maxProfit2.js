@@ -17,3 +17,20 @@ const maxProfit = arr => {
 	return dp[arr.length - 1][1]
 }
 console.log(maxProfit([7, 1, 5, 3, 6, 4]))
+
+// 贪心做法，核心是盈利是可以分割的，比如第一天买入第三天卖出，盈利可以分为第一天买第二天卖 + 第二天卖第三天卖。
+// 所以我们计算出每天的盈利，然后只需要取全部正值就行了,盈利是从第二天开始计算的
+
+const maxProfitV2 = arr => {
+	const profitArray = []
+	for (let i = 1; i < arr.length; i++) {
+		profitArray.push(arr[i] - arr[i - 1])
+	}
+	const maxProfit = profitArray.reduce((prev, cur) => {
+		if (cur > 0) prev += cur
+		return prev
+	}, 0)
+	return maxProfit
+}
+
+console.log(maxProfitV2([7, 1, 5, 3, 6, 4]))
