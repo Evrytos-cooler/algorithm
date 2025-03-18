@@ -4,16 +4,16 @@
 
 const partitionLabels = s => {
 	// 构建区间,区间的开始可以在遍历的地方确定
-	const endList = new Array(26).fill(-1) // 每一个字母一个位置
+	const endMap = new Map()
 	const result = []
 	for (let i = 0; i < s.length; i++) {
-		endList[s[i].charCodeAt() - 'a'.charCodeAt()] = i
+		endMap.set(s[i], i)
 	}
 
 	let start = 0
 	let end = 0
 	for (let i = 0; i < s.length; i++) {
-		end = Math.max(endList[s[i].charCodeAt() - 'a'.charCodeAt()], end)
+		end = Math.max(endMap.get(s[i]), end)
 		if (end === i) {
 			result.push(end - start + 1)
 			start = i + 1
@@ -21,4 +21,4 @@ const partitionLabels = s => {
 	}
 	return result
 }
-console.log(partitionLabels('caedbdedda'))
+console.log(partitionLabels('caedcbdedda'))
