@@ -120,7 +120,7 @@ function sameVNode(a, b) {
 function getSequence(arr) {
 	const p = arr.slice()
 	const result = [0]
-	let i, j, u, v, c
+	let i, j, start, end, mid
 	const len = arr.length
 
 	for (i = 0; i < len; i++) {
@@ -128,34 +128,37 @@ function getSequence(arr) {
 		if (arrI !== -1) {
 			j = result[result.length - 1]
 			if (arr[j] < arrI) {
+				// 1.元素位置在旧数组中保持顺序，更新 result 过程
 				p[i] = j
 				result.push(i)
-				continue
-			}
-			u = 0
-			v = result.length - 1
-			while (u < v) {
-				c = (u + v) >> 1
-				if (arr[result[c]] < arrI) {
-					u = c + 1
-				} else {
-					v = c
+			} else {
+				// 2.元素位置在旧数组中乱序，二分查找插入位置过程
+				start = 0
+				end = result.length - 1
+				while (start < end) {
+					mid = (start + end) >> 1
+					if (arr[result[mid]] < arrI) {
+						start = mid + 1
+					} else {
+						end = mid
+					}
 				}
-			}
-			if (arrI < arr[result[u]]) {
-				if (u > 0) {
-					p[i] = result[u - 1]
+				if (arrI < arr[result[start]]) {
+					if (start > 0) {
+						p[i] = result[start - 1]
+					}
+					result[start] = i
 				}
-				result[u] = i
 			}
 		}
 	}
 
-	u = result.length
-	v = result[u - 1]
-	while (u-- > 0) {
-		result[u] = v
-		v = p[v]
+	// 3.回溯获取结果过程
+	start = result.length
+	end = result[start - 1]
+	while (start-- > 0) {
+		result[start] = end
+		end = p[end]
 	}
 	return result
 }

@@ -28,6 +28,7 @@ const domAPI = {
 
 // ----------------- React Diff 实现 -----------------
 function reactDiff(parent, oldChildren, newChildren) {
+	// 用新旧节点生成的两个以 key:index 的 map
 	const oldMap = new Map()
 	oldChildren.forEach((child, index) => oldMap.set(child.key, index))
 
@@ -37,17 +38,21 @@ function reactDiff(parent, oldChildren, newChildren) {
 	let lastIndex = 0
 	const newVNodes = newChildren.map(child => ({ ...child }))
 
+	// 第一层循环遍历新节点
 	for (let i = 0; i < newVNodes.length; i++) {
 		const newChild = newVNodes[i]
 		const oldIndex = oldMap.get(newChild.key)
 
+		// 1.新增情况
 		if (oldIndex === undefined) {
 			const node = domAPI.createElement(newChild.type)
 			domAPI.insertBefore(parent, node, parent.children[i] || null)
 		} else {
+			// 2.移动情况
 			const oldChild = oldChildren[oldIndex]
 			const node = oldChild._el
 
+			// 3.只往后移动，这里是难点，通过处理过的最远的旧节点索引位置来判断是否需要移动
 			if (oldIndex < lastIndex) {
 				domAPI.insertBefore(parent, node, parent.children[i] || null)
 			}
@@ -55,6 +60,7 @@ function reactDiff(parent, oldChildren, newChildren) {
 		}
 	}
 
+	// 第二层循环遍历旧节点，主要是删除多余的节点
 	oldChildren.forEach(oldChild => {
 		if (!newMap.has(oldChild.key)) {
 			domAPI.removeChild(parent, oldChild._el)
