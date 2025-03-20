@@ -1,5 +1,12 @@
 function pipe(...fns) {
 	// 实现代码
+	return async function (num) {
+		let result = num
+		for (let promiseFunc of fns) {
+			result = await promiseFunc(result)
+		}
+		return result
+	}
 }
 
 // 示例用法
