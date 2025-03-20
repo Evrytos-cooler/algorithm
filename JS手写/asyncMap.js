@@ -1,5 +1,10 @@
 async function asyncMap(array, mapper) {
 	// 实现代码
+	const result = []
+	array.forEach(async (item, i) => {
+		result[i] = await mapper(item)
+	})
+	return result
 }
 
 // 示例用法
