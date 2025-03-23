@@ -38,4 +38,4 @@ const subArraySumV2 = (arr, k) => {
 	return count
 }
 
-console.log(subArraySumV2([1, -1, 0], 2))
+console.log(subArraySumV2([1, 1, 1, 0], 2))

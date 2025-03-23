@@ -1,3 +1,4 @@
+// KMP 算法，前缀数组 next
 /**
  * @param {string} haystack
  * @param {string} needle
