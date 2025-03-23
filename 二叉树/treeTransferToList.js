@@ -18,20 +18,24 @@ const flatten = function (root) {
 
 // 原地 把node推入queue中然后同意处理链接
 const flattenV2 = function (root) {
-	const stack = []
+	let stack = new TreeNode(null)
 	const traversal = root => {
 		// 前序遍历 中左右
 		if (!root) return
-		stack.push(root)
-		root.left && traversal(root.left)
-		root.right && traversal(root.right)
+		const left = root.left
+		const right = root.right
+		stack.left = null
+		stack.right = root
+		stack = root
+		left && traversal(left)
+		right && traversal(right)
 	}
 
 	traversal(root)
-	for (let i = 0; i < stack.length - 1; i++) {
-		stack[i].left = null
-		stack[i].right = stack[i + 1]
-	}
+	// for (let i = 0; i < stack.length - 1; i++) {
+	// 	stack[i].left = null
+	// 	stack[i].right = stack[i + 1]
+	// }
 	return root
 }
 
