@@ -25,5 +25,6 @@
 		"debounceInterval": 125,
 		"proxyMode": "system",
 		"proxyUrl": ""
-	}
+	},
+	"git.defaultBranchName": "master"
 }
