@@ -13,6 +13,7 @@ const maxProfit = arr => {
 }
 // 贪心方法
 // 遍历一次数组，记录最小值，同时记录result，由于只能先买后卖，同一个循环中就能够计算买入和卖出
+// 拆开来看，其实每两天就能算出一个收益，对于能够买卖多次的情况，其实我们只需要吧所有正收益都加起来就行了
 const greedy = arr => {
 	let result = -Infinity
 	let min = Infinity
