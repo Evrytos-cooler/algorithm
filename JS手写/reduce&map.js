@@ -1,6 +1,7 @@
 Array.prototype.myReduce = function (callback, init) {
 	let accumulator = init ?? this[0]
-	for (let i = 0; i < this.length; i++) {
+	const startIndex = init === undefined ? 1 : 0
+	for (let i = startIndex; i < this.length; i++) {
 		accumulator = callback(accumulator, this[i], i, this)
 	}
 	return accumulator
@@ -22,3 +23,8 @@ const result1 = array.myReduce((prev, curr) => {
 const result2 = array.map((item, key) => {
 	return `${item}-${key}`
 })
+console.log(array.myReduce((prev, cur) => prev + cur, 10))
+console.log(array.myReduce((prev, cur) => prev + cur))
+
+console.log(array.reduce((prev, cur) => prev + cur, 10))
+console.log(array.reduce((prev, cur) => prev + cur))
