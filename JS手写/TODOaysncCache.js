@@ -1,5 +1,15 @@
 function asyncCache(fn) {
 	// 实现代码
+	const cache = new Map()
+	return async (...arg) => {
+		if (!cache.get(arg.join())) {
+			const result = await fn(...arg)
+			cache.set(arg.join(), result)
+			return result
+		} else {
+			return cache.get(arg.join())
+		}
+	}
 }
 
 // 示例用法
@@ -8,5 +18,6 @@ const fetchData = async key => {
 	return key.toUpperCase()
 }
 const cachedFetch = asyncCache(fetchData)
-cachedFetch('a').then(console.log) // 输出 "Fetching data for: a" 然后输出 "A"
-cachedFetch('a').then(console.log) // 直接输出 "A"
+cachedFetch('a')
+	.then(console.log)
+	.then(() => cachedFetch('a').then(console.log))
