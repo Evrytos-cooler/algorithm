@@ -1,0 +1,57 @@
+<!-- 给出如下虚拟dom的数据结构，如何实现简单的虚拟dom，渲染到目标dom树 //样例数据 -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+	</head>
+	<body>
+		<div id="contianer" class="对照">
+			<ul class="list">
+				<li>tencent</li>
+				<li>qq</li>
+			</ul>
+		</div>
+	</body>
+	<script>
+		const demoNode = {
+			tagName: 'ul',
+			props: { class: 'list' },
+			children: [
+				{
+					tagName: 'li',
+					children: ['tenecnt', { tagName: 'li', children: ['qq'] }],
+				},
+				{ tagName: 'li', children: ['qq'] },
+			],
+		}
+		// 思路
+		// createElement appendChild setAttribute
+		// 1. 通过 setInnerHTML 挂载字符串
+		// 2. 递归渲染子节点 ， 迭代渲染同级节点
+		const render = (node, element) => {
+			// 创建当前元素
+			const dom = document.createElement(node.tagName)
+			// 处理props
+			if (node.porps)
+				for (let prop of Object.keys(node.props)) {
+					dom.setAttribute(prop, node.props[prop])
+				}
+			// 处理子节点 :注意只有一个节点的情况
+			if (node.children) {
+				for (child of node.children) {
+					if (typeof child === 'object') {
+						const children = render(child)
+						dom.appendChild(children)
+					} else {
+						dom.innerText = child
+					}
+				}
+			}
+			return dom
+		}
+
+		document.getElementById('contianer').appendChild(render(demoNode))
+	</script>
+</html>
