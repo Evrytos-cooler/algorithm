@@ -8,18 +8,16 @@ const KMP = (str, partner) => {
 	if (partner.length === 0) return 0
 
 	const getPrefix = partner => {
-		const prefix = [0]
+		const prefix = new Array(partner.length).fill(0)
 		let i = 0 // 前缀的末尾 --> 这个就是 prefix 要收集的值
 		let j = 1 // //后缀的末尾 --> 这个也表达当前串的长度
 		// 遍历 partner 字符串
 		for (j; j < partner.length; j++) {
 			while (partner[i] !== partner[j] && i > 0) {
-				i = partner[i - 1]
+				i = prefix[i - 1]
 			}
 			if (partner[i] === partner[j]) {
 				prefix[j] = ++i // 前缀表保存的是长度，所以相对于下标要+1
-			} else {
-				prefix[j] = 0 // 这里也可以初始化为 0
 			}
 		}
 		return prefix
