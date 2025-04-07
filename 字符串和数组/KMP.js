@@ -10,13 +10,14 @@ const KMP = (str, partner) => {
 	const getPrefix = partner => {
 		const prefix = new Array(partner.length).fill(0)
 		let i = 0 // 前缀的末尾 --> 这个就是 prefix 要收集的值
-		let j = 1 // //后缀的末尾 --> 这个也表达当前串的长度
-		// 遍历 partner 字符串
+		let j = 1 //后缀的末尾 --> 这个也表达当前串的长度
+		// 遍历 partner 字符串,不论是否匹配上，都会移动,实际上就是去
 		for (j; j < partner.length; j++) {
 			while (partner[i] !== partner[j] && i > 0) {
 				i = prefix[i - 1]
 			}
 			if (partner[i] === partner[j]) {
+				// 模式串只有匹配上的时候才会往下
 				prefix[j] = ++i // 前缀表保存的是长度，所以相对于下标要+1
 			}
 		}
@@ -26,18 +27,17 @@ const KMP = (str, partner) => {
 	const prefix = getPrefix(partner)
 	let i = 0,
 		j = 0
-	while (i < str.length) {
+	// 不论是否匹配上，目标串都会移动
+	for (i; i < str.length; i++) {
 		while (str[i] !== partner[j] && j > 0) {
 			j = prefix[j - 1]
 		}
 		if (str[i] === partner[j]) {
-			i++
-			j++
-			if (j === partner.length) {
+			if (j === partner.length - 1) {
 				return i - j
 			}
-		} else {
-			i++ // 这里如果没有找到相同的，而且j不能回退了，需要i++，不然会卡死
+			// 模式串只有匹配上了才会往下
+			j++
 		}
 	}
 	return -1
