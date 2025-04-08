@@ -88,17 +88,12 @@ function isSubStructure(rootA, rootB) {
 		return trace(motherTree, target)
 	}
 	//判断从这个根开始的母树是否存在一个子树，传入两个根节点
-	function isSub(motherNode, childNode) {
-		function trace(node1, node2) {
-			if (!node1 || !node2) return false
-			if (node1.val === node2.val) {
-				return (
-					trace(motherNode.left, childNode.left) &&
-					trace(motherNode.right, childNode.right)
-				)
-			} else return false
-		}
-		return trace(motherNode, childNode)
+	function isSub(node1, node2) {
+		if (!node2) return true //子树遍历完了，说明子树被找到了
+		if (!node1) return false // 母树遍历完了，而子树还没遍历完，说明没找到子树
+		if (node1.val === node2.val) {
+			return isSub(node1.left, node2.left) && isSub(node1.right, node2.right)
+		} else return false
 	}
 	return findFirst(rootA, rootB)
 }
@@ -189,5 +184,6 @@ function isSubStructureV3(rootA, rootB) {
 	return findFirst(rootA, rootB)
 }
 
-console.log(isSubStructureV3(treeA.root, treeB.root))
-console.log(isSubStructureV3(treeA.root, treeC.root))
+console.log(isSubStructure(treeA.root, treeB.root))
+// console.log(isSubStructureV2(treeA.root, treeB.root))
+// console.log(isSubStructureV3(treeA.root, treeC.root))
