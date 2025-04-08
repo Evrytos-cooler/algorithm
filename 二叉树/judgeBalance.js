@@ -10,11 +10,8 @@ const judgeBalance = root => {
 		const rightHeight = judge(root.right)
 		if (rightHeight === -1) return -1
 		//判断是否平衡
-		if (leftHeight < rightHeight) {
-			;[leftHeight, rightHeight] = [rightHeight, leftHeight]
-		}
-		if (leftHeight - rightHeight > 1) return -1
-		else return leftHeight + 1
+		if (Math.abs(leftHeight - rightHeight) > 1) return -1
+		else return Math.max(leftHeight, rightHeight) + 1
 	}
 	return judge(root) !== -1
 }
@@ -55,11 +52,11 @@ const judgeBalanceV2 = root => {
 }
 // 平衡二叉树
 const balancedTree = new TreeNode(1)
-balancedTree.left = new TreeNode(2)
-balancedTree.right = new TreeNode(3)
-balancedTree.left.left = new TreeNode(4)
-balancedTree.left.right = new TreeNode(5)
-balancedTree.right.left = new TreeNode(6)
+// balancedTree.left = new TreeNode(null)
+balancedTree.right = new TreeNode(2)
+// balancedTree.left.left = new TreeNode(null)
+// balancedTree.left.right = new TreeNode(3)
+// balancedTree.right.left = new TreeNode(6)
 balancedTree.right.right = new TreeNode(7)
 // 树的结构：
 //       1
@@ -68,6 +65,8 @@ balancedTree.right.right = new TreeNode(7)
 //    / \ / \
 //   4  5 6  7
 
+console.log(judgeBalance(balancedTree))
+console.log(judgeBalanceV2(balancedTree))
 // 非平衡二叉树
 const unbalancedTree = new TreeNode(1)
 unbalancedTree.left = new TreeNode(2)
@@ -84,8 +83,3 @@ unbalancedTree.left.left.left.left = new TreeNode(5)
 // 4
 // /
 //5
-
-const resultTrue = judgeBalance(balancedTree)
-const resultFalse = judgeBalance(unbalancedTree)
-const resultTrueV2 = judgeBalanceV2(balancedTree)
-const resultFalseV2 = judgeBalanceV2(unbalancedTree)
