@@ -89,8 +89,8 @@ function isSubStructure(rootA, rootB) {
 	}
 	//判断从这个根开始的母树是否存在一个子树，传入两个根节点
 	function isSub(node1, node2) {
-		if (!node2) return true //子树遍历完了，说明子树被找到了
-		if (!node1) return false // 母树遍历完了，而子树还没遍历完，说明没找到子树
+		if (!node1 && !node2) return true
+		if (!node1 || !node2) return false
 		if (node1.val === node2.val) {
 			return isSub(node1.left, node2.left) && isSub(node1.right, node2.right)
 		} else return false
@@ -126,15 +126,18 @@ function isSubStructureV2(rootA, rootB) {
 			stack.push(node)
 			while (stack.length) {
 				const node = stack.pop()
-				result.push(node.val)
-				node.left && stack.push(node.left)
-				node.right && stack.push(node.right)
+				result.push(node?.val || 'null')
+				if (node) {
+					stack.push(node.left)
+					stack.push(node.right)
+				}
 			}
 			return result
 		}
 		let level1 = level(motherNode)
 		let level2 = level(childNode)
-		if (level2.toString() === level1.slice(0, level2.length).toString()) return true
+		// if (level2.toString() === level1.slice(0, level2.length).toString()) return true // 用哪个版本取决于这个子树是要求找得到即可，还是要求叶子节点必须一样
+		if (level2.toString() === level1.toString()) return true
 		else return false
 	}
 	return findFirst(rootA, rootB)
@@ -170,15 +173,18 @@ function isSubStructureV3(rootA, rootB) {
 			stack.push(node)
 			while (stack.length) {
 				const node = stack.pop()
-				result.push(node.val)
-				node.left && stack.push(node.left)
-				node.right && stack.push(node.right)
+				result.push(node?.val || 'null')
+				if (node) {
+					stack.push(node.left)
+					stack.push(node.right)
+				}
 			}
 			return result
 		}
 		let level1 = level(motherNode)
 		let level2 = level(childNode)
-		if (level2.toString() === level1.slice(0, level2.length).toString()) return true
+		// if (level2.toString() === level1.slice(0, level2.length).toString()) return true // 用哪个版本取决于这个子树是要求找得到即可，还是要求叶子节点必须一样
+		if (level2.toString() === level1.toString()) return true
 		else return false
 	}
 	return findFirst(rootA, rootB)
