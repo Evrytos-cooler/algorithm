@@ -23,7 +23,7 @@ const longestValidParentheses = arr => {
 	return max
 }
 
-// 从一个 () 开始向两边拓展，遇到边界相加则合并，继续拓展
+// 从一个 () 开始向两边拓展，遇到边界相加则合并，继续拓展, 实际上这是一种比较取巧的暴力解法
 const longestValidParenthesesV2 = arr => {
 	if (arr.length < 2) return 0
 	const expend = (i, j) => {

@@ -1,3 +1,4 @@
+// 这道题考察的其实是操作系统，更准确的说是编码内容。和算法思想的关系不大
 const transfer = string => {
 	let sum = 0
 	for (let i = 0; i < string.length; i++) {
