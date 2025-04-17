@@ -1,4 +1,5 @@
 // 用一个栈标记组成对的内容，用一个数组标记组成对的位置，最后获取连续1的最长长度
+// 和判断是否是一个有效的括号是一个思路，只不过我们这里多了一个标记的过程
 const longestValidParentheses = arr => {
 	const stack = []
 	const used = new Array(arr.length).fill(0)

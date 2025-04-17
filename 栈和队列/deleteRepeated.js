@@ -1,3 +1,4 @@
+// 需要先入栈构建一个栈，在入栈过程中执行操作。然后在栈中执行出栈操作
 const deleteRepeat = arr => {
 	const stack = []
 	for (let key of arr) {

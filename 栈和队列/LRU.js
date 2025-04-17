@@ -7,9 +7,11 @@ const LRU = (callList, length) => {
 			LRUlist.push(target)
 		} else {
 			if (LRUlist.includes(target)) {
+				// 存在则移动位置
 				LRUlist.splice(LRUlist.indexOf(target), 1)
 				LRUlist.push(target)
 			} else {
+				// 否则直接放到队列顶，淘汰队列尾部
 				LRUlist.shift()
 				LRUlist.push(target)
 			}

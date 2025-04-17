@@ -1,3 +1,4 @@
+// 原本就是一个栈，我们只需要不断的出栈即可
 /**
  * @param {string[]} tokens
  * @return {number}

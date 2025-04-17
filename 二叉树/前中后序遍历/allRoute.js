@@ -12,7 +12,7 @@
  * @return {number[][]}
  */
 
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 
 // 这里只是要求从根节点到叶子节点，如果是任意路径就难得多
 var pathTarget = function (root, target) {

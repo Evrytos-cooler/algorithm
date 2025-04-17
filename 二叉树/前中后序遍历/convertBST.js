@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 // 转换二叉搜索树为累加树
 // 累加树累加的是比自己大的所有节点
 // 对二叉搜索树 右 中 左 的遍历得到一个降序序列
