@@ -1,3 +1,4 @@
+// 单调队列
 class MyList {
 	myList
 	constructor() {
@@ -5,6 +6,7 @@ class MyList {
 	}
 
 	push(value) {
+		// 注意重复元素一定要保留，所以这里是 < 而非 <=
 		while (this.myList.length && this.myList[this.myList.length - 1] < value) {
 			this.myList.pop()
 		}
@@ -28,6 +30,7 @@ const maxSlidingWindow = function (nums, k) {
 	}
 	result.push(list.myList[0])
 	for (let i = k; i < nums.length; i++) {
+		// 通过 push 和 shift 保证当前list窗口内最多有3个元素，而且第一个是最大的
 		list.push(nums[i])
 		list.shift(nums[i - k])
 		result.push(list.myList[0])
