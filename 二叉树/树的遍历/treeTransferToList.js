@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 const flatten = function (root) {
 	let head = new TreeNode(null)
 	let virtual = head
