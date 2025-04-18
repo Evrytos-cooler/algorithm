@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 const treeDepth = root => {
 	//结束条件
 	if (!root) return 0

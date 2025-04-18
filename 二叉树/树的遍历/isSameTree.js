@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 // 递归法，同步的遍历两个二叉树
 const isSameTree = function (p, q) {
 	if (p === null && q === null) return true

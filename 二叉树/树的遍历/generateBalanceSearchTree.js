@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 
 const generateBalanceSearchTree = list => {
 	//退出条件

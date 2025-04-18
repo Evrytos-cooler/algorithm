@@ -39,7 +39,7 @@ var pathTarget = function (root, target) {
 	return result
 }
 
-// 使用迭代实现递归, xuyao tongshi weihu yige lujing
+// 使用迭代实现递归, 需要同时维护一个路径的栈
 var binaryTreePaths = function (root) {
 	// 用一个栈保存遍历的节点
 	if (!root) return []

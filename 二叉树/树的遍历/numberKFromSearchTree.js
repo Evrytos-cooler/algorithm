@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 
 //平衡树
 const bst2 = new TreeNode(

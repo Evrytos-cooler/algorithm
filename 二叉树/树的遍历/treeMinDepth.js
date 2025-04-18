@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 
 const treeMinDepth = root => {
 	if (!root) return 0

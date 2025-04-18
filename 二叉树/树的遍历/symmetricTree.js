@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 //递归法
 const isSymmetricTree = root => {
 	const traversal = (left, right) => {

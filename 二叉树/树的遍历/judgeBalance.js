@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 // 递归法
 const judgeBalance = root => {
 	const judge = root => {
@@ -62,8 +62,10 @@ balancedTree.right.right = new TreeNode(7)
 //       1
 //      / \
 //     2   3
-//    / \ / \
-//   4  5 6  7
+//    / \ / 
+//   4  5 6  
+//  /
+// 7
 
 console.log(judgeBalance(balancedTree))
 console.log(judgeBalanceV2(balancedTree))
