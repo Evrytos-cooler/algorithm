@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 //跟据前序遍历和后序遍历序列构建树 : 不变量为左闭右开
 const buildTree = function (preorder, inorder) {
 	if (!preorder.length) return null

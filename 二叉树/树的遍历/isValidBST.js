@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 // 中序遍历一下，判断是否是递增的就行
 const isValidBST = function (root) {
 	const list = []

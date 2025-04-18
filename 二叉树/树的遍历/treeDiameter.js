@@ -1,4 +1,4 @@
-import TreeNode from './generateTree.js'
+import TreeNode from '../generateTree.js'
 const treeDiameter = root => {
 	let result = 0
 	const traversal = node => {

@@ -97,7 +97,6 @@ function isSubStructure(rootA, rootB) {
 	}
 	return findFirst(rootA, rootB)
 }
-//以上方法递归调用层级太深？
 
 //方法2 ，使用DFS + 使用层级遍历
 function isSubStructureV2(rootA, rootB) {
