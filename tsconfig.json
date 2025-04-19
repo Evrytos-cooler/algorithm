@@ -10,9 +10,9 @@
 	"include": [
 		"**/*.ts",
 		"字符串和数组/多指针/delete.ts",
-		"字符串和数组/多指针/shortedSubArray.js",
+		"字符串和数组/前后缀数组/shortedSubArray.js",
 		"栈和队列/单调栈/nextBiggerI.js",
-		"库实现/reactDiff.js"
+		"JS手写/库实现/reactDiff.js"
 	],
 	"exclude": ["node_modules"]
 }
