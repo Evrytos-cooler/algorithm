@@ -1,4 +1,7 @@
 import treeGenerate from '../../二叉树/generateTree.js'
+// 自底向上 ，因为小偷不止走一条路径，自顶向下不利于收集结果
+// 从叶子节点开始，最终将结果收敛到根节点
+// 严格来说这样应该是一个二维 dp，不过这里为了打家劫舍系列不被分割，就放一起讨论了
 const treeRobbring = tree => {
 	const traversal = node => {
 		if (!node) return

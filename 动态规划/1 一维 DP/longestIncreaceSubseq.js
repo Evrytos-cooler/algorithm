@@ -1,6 +1,6 @@
 //最长子序列系列之：最长递增子序列
 // dp是当前数为结尾的最长递增子序列长度
-// 两层循环遍历
+// 两层循环遍历: 因为不连续所以需要多一层来展开
 const LIS = arr => {
 	const dp = Array(arr.length).fill(1)
 	let max = 0

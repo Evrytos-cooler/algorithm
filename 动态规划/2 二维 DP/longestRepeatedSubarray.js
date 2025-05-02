@@ -16,6 +16,7 @@ const LRSA = (arra, arrb) => {
 			result = 1
 		}
 	}
+	// 需要两个循环分别确认两个序列的结尾
 	for (let i = 1; i < arra.length; i++) {
 		for (let j = 1; j < arrb.length; j++) {
 			if (arra[i] === arrb[j]) {
