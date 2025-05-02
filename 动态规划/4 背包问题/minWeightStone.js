@@ -1,5 +1,5 @@
 // 关键思路：将石头分成重量尽量相等的两堆
-// 转换成01背包，大小为sum/3的背包能装的最多的内容就是最靠近相等的其中一堆
+// 转换成01背包，大小为sum/2的背包能装的最多的内容就是最靠近相等的其中一堆
 const minWeightStone = arr => {
 	const _sum = arr.reduce((prev, cur) => prev + cur, 0)
 	//偏小的那堆

@@ -13,7 +13,7 @@ const isSubsequence = (s, t) => {
 			if (arra[i - 1] === arrb[j - 1]) {
 				dp[i][j] = dp[i - 1][j - 1] + 1
 			} else {
-				dp[i][j] = Math.max(dp[i][j - 1])
+				dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j])
 			}
 		}
 	}
