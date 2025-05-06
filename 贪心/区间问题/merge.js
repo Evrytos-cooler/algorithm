@@ -8,6 +8,7 @@ const merge = s => {
 	for (let i = 1; i < arr.length; i++) {
 		let end = result[result.length - 1][1]
 		if (arr[i][0] <= end) {
+			// 核心操作
 			result[result.length - 1][1] = Math.max(end, arr[i][1])
 		} else {
 			result.push(arr[i])
