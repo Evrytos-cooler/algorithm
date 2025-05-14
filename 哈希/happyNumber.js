@@ -17,4 +17,8 @@ const happyNumber = target => {
 	return false
 }
 
-const result = happyNumber(19)
+console.log(happyNumber(19))
+console.log(happyNumber(82))
+console.log(happyNumber(100))
+console.log(happyNumber(0))
+console.log(happyNumber(2))

@@ -5,6 +5,7 @@ const minCostTickets = function (days, costs) {
 		if (!days.includes(i)) {
 			dp[i] = dp[i - 1]
 		} else {
+			// 这里是贪心的思路，让当天是这张旅游票的最后一天，那么就能够覆盖前面尽量多的旅游天数
 			const day1Cost = dp[i - 1] + costs[0]
 			const day7Cost = dp[Math.max(0, i - 7)] + costs[1]
 			const day30Cost = dp[Math.max(0, i - 30)] + costs[2]

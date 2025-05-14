@@ -8,7 +8,7 @@ const integerBreak = function (n) {
 	dp[2] = 1
 	for (let i = 3; i <= n; i++) {
 		for (let j = i - 1; j > 0; j--) {
-			// 兜底 拆成j和i-j i-j再拆
+			// 兜底 | 拆成j和i-j | i-j再拆
 			dp[i] = Math.max(dp[i], dp[i - j] * j, j * (i - j))
 		}
 	}

@@ -1,3 +1,4 @@
+// 子数组问题，连续的，不需要两层
 const LCIS = arr => {
 	const dp = Array(arr.length).fill(1)
 	let result = 0

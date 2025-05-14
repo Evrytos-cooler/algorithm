@@ -26,7 +26,8 @@ const minDistance = (word1, word2) => {
 				)
 		}
 	}
+
 	return dp[word1.length][word2.length]
 }
 
-console.log(minDistance('sea', 'eat'))
+console.log(minDistance('seaa', 'eat'))
