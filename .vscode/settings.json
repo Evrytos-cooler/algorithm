@@ -27,5 +27,6 @@
 		"proxyUrl": ""
 	},
 	"git.defaultBranchName": "master",
-	"prettier.configPath": ".prettierrc.cjs"
+	"prettier.configPath": ".prettierrc.cjs",
+	"editor.formatOnSave": true
 }
