@@ -1,50 +1,45 @@
-function knapSack(values, weights, target) {
-	// 创建一个二维数组来保存状态
-	const dp = new Array(values.length).fill(0).map(() => new Array(target + 1).fill(0))
-	const selectedItems = new Set() // 用于保存选中的物品编号
+// 动规五部曲
+// 1 转换方程 可以选或者不选 dp[i][j] = dp[i-1][j] , dp[i][j-weight[i]]
+// 2 dp[i][j] 的定义 ,i 可用物品编号， j背包大小
+// 3 初始化 物品为0号 和背包大小为 0
+// 4 遍历顺序 i - 1 , j - weight[i] 需要向右下运动
+// 5 输出
 
+// target 背包大小， value 价值数组, weight 重量， n 物品数量
+const dynamicProgramming = (target, value, weight, n) => {
+	// 初始化
+	const dp = new Array(n).fill(0).map(() => new Array(target + 1).fill(0))
 	for (let j = 0; j <= target; j++) {
-		if (j < weights[0]) {
-			dp[0][j] = 0
-		} else {
-			dp[0][j] = values[0]
-		}
+		if (j >= weight[0]) dp[0][j] = value[0]
 	}
 
-	for (let i = 1; i < values.length; i++) {
-		for (let w = 1; w <= target; w++) {
-			if (weights[i] <= w) {
-				// 如果当前物品可以放入背包 放和不放
-				dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - weights[i]] + values[i])
+	// 遍历
+	for (let i = 1; i < n; i++) {
+		for (let j = 0; j <= target; j++) {
+			if (j >= weight[i]) {
+				dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - weight[i]] + value[i])
 			} else {
-				// 当前物品太重，无法放入背包
-				dp[i][w] = dp[i - 1][w]
+				dp[i][j] = dp[i - 1][j]
 			}
 		}
 	}
 
-	//回溯求选择的背包
-	let i = values.length - 1
+	// 回溯求物品
+	const item = new Set() // index
+	let i = n - 1
 	let j = target
-	//看最大的背包里面装了什么，回溯最后一项的计算流程
-	while (i >= 0 && j > 0) {
-		if (dp[i][j] !== dp[i - 1][j]) {
-			selectedItems.add(i)
-			j -= weights[i]
+	while (i > 0 && j > 0) {
+		if (j >= weight[i] && dp[i][j] === dp[i - 1][j - weight[i]] + value[i]) {
+			item.add(i)
+			j -= weight[i]
 		}
 		i--
 	}
-	// 输出选中的物品编号
-	console.log('选中的物品编号：', Array.from(selectedItems).join(', '))
-
-	// 返回最大价值
-	return dp[values.length - 1][target]
+	if (i === 0 && j >= weight[0] && dp[0][j] > 0) item.add(0)
+	console.log(item)
+	return dp[n - 1][target]
 }
-
-// 示例输入
 const values = [1, 12, 2, 1, 4, 1, 1]
 const weights = [10, 4, 2, 1, 10, 2, 10]
 const target = 15
-
-// 计算最大价值
-console.log('最大价值：', knapSack(values, weights, target))
+console.log(dynamicProgramming(target, values, weights, 7))
