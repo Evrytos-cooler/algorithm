@@ -6,12 +6,10 @@ const change = (amount, coins) => {
 	const dp = new Array(amount + 1).fill(0)
 	dp[0] = 1
 	for (let i = 0; i < coins.length; i++) {
-		//对物品的遍历其实可以不用记录到dp中
-		for (let j = 0; j <= amount; j++) {
-			if (coins[i] <= j) dp[j] += dp[j - coins[i]]
+		for (let j = 1; j < amount; j++) {
+			if (j >= coins[i]) dp[j] = dp[j - coins[i]]
 		}
 	}
-
 	return dp[amount]
 }
 console.log(change(3, [2]))
