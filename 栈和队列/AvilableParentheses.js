@@ -25,6 +25,28 @@ const avilableParentheses = arr => {
 	}
 	return true
 }
-console.log(avilableParentheses('()'))
-console.log(avilableParentheses('()[]{]'))
-console.log(avilableParentheses('(){}{[]}'))
+// console.log(avilableParentheses('()'))
+// console.log(avilableParentheses('()[]{]'))
+// console.log(avilableParentheses('(){}{[]}'))
+
+const isValid = s => {
+	const leftHead = ['(', '[', '{']
+	const rightHead = [')', ']', '}']
+	const map = new Map()
+	for (let i = 0; i < leftHead.length; i++) {
+		map.set(leftHead[i], rightHead[i])
+	}
+	const stack = []
+	for (let i = 0; i < s.length; i++) {
+		if (leftHead.includes(s[i])) {
+			stack.push(s[i])
+		} else if (rightHead.includes(s[i])) {
+			if (map.get(stack[stack.length - 1]) === s[i]) {
+				stack.pop()
+			} else return false
+		}
+	}
+	return stack.length === 0
+}
+console.log(isValid('({}(()[])){}'))
+console.log(isValid('({}(()[)){}'))
