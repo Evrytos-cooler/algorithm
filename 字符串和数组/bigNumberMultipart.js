@@ -1,4 +1,4 @@
-const bigNumberMultipart = (_num1, _num2) => {
+var bigNumberMultipart = (_num1, _num2) => {
 	const num1 = _num1.split('').reverse()
 	const num2 = _num2.split('').reverse()
 	//保证num1是最长的
@@ -44,3 +44,48 @@ const bigNumberMultipart = (_num1, _num2) => {
 }
 
 console.log(bigNumberMultipart('123', '321'))
+
+// 从竖式计算找思路
+// 1. num1 长于 num2
+// 2. num2 拆分为一个一个数
+// 3. 单数相乘用 simpleMultipart 计算
+// 4. 结果乘以权重相加
+var bigNumberMultipart = (_num1, _num2) => {
+	const tempResult = []
+	const [num1, num2] = _num1.length >= _num2.length ? [_num1, _num2] : [_num2, _num1]
+	for (let i = num2.length - 1; i >= 0; i--) {
+		tempResult.push(simpleMultipart(num1, num2[i]))
+	}
+	const res = tempResult.reduce((prev, cur, curIndex) => {
+		// 不能直接用加法，数字够大就会爆，所以要用上字符串加法
+		return simpleSum(prev, cur + '0'.repeat(curIndex))
+	}, '0')
+	return res
+}
+
+const simpleMultipart = (num, char) => {
+	let resList = []
+	for (let i = num.length - 1; i >= 0; i--) {
+		resList.push(Number(num[i]) * Number(char))
+	}
+	const res = resList.reduce((prev, cur, curIndex) => {
+		return simpleSum(prev, cur + '0'.repeat(curIndex))
+	}, '0')
+	return res
+}
+
+const simpleSum = (num1, num2) => {
+	let flag = 0
+	let res = []
+	for (let i = Math.max(num2.length, num1.length) - 1; i >= 0; i--) {
+		const n1 = Number(num1[i]) || 0
+		const n2 = Number(num2[i]) || 0
+		const temp = n1 + n2 + flag
+		res.unshift(temp % 10)
+		flag = Math.floor(temp / 10)
+	}
+	flag !== 0 && res.unshift(flag)
+	return res.join('')
+}
+
+console.log(bigNumberMultipart('123456789', '987654321'))
