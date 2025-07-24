@@ -74,10 +74,12 @@ const simpleMultipart = (num, char) => {
 	return res
 }
 
-const simpleSum = (num1, num2) => {
+const simpleSum = (_num1, _num2) => {
+	const num1 = _num1.split('').reverse()
+	const num2 = _num2.split('').reverse()
 	let flag = 0
 	let res = []
-	for (let i = Math.max(num2.length, num1.length) - 1; i >= 0; i--) {
+	for (let i = 0; i < Math.max(num1.length, num2.length); i++) {
 		const n1 = Number(num1[i]) || 0
 		const n2 = Number(num2[i]) || 0
 		const temp = n1 + n2 + flag
