@@ -28,7 +28,7 @@ const tree = new TreeNode(
 	new TreeNode(3, new TreeNode(6), new TreeNode(7))
 )
 
-const levetOrder = root => {
+var levelOrder = root => {
 	let temp = [root]
 	const result = []
 	while (1) {
@@ -44,4 +44,23 @@ const levetOrder = root => {
 		temp = newTemp
 	}
 }
-levetOrder(tree)
+console.log(levelOrder(tree))
+
+var levelOrder = root => {
+	if (!root) return []
+	let res = []
+	let temp = [root]
+	while (temp.length !== 0) {
+		res.push(temp.slice().map(i => i.val))
+		let length = temp.length
+		for (let i = 0; i < length; i++) {
+			const node = temp[0]
+			node.left && temp.push(node.left)
+			node.right && temp.push(node.right)
+			temp.shift()
+		}
+	}
+	return res
+}
+
+console.log(levelOrder(tree).map(i => i.toString()))
