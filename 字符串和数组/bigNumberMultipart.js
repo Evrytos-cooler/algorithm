@@ -50,7 +50,8 @@ console.log(bigNumberMultipart('123', '321'))
 // 2. num2 拆分为一个一个数
 // 3. 单数相乘用 simpleMultipart 计算
 // 4. 结果乘以权重相加
-var bigNumberMultipart = (_num1, _num2) => {
+var multiply = (_num1, _num2) => {
+	if (_num1 === '0' || _num2 === '0') return '0'
 	const tempResult = []
 	const [num1, num2] = _num1.length >= _num2.length ? [_num1, _num2] : [_num2, _num1]
 	for (let i = num2.length - 1; i >= 0; i--) {
@@ -90,4 +91,4 @@ const simpleSum = (_num1, _num2) => {
 	return res.join('')
 }
 
-console.log(bigNumberMultipart('123456789', '987654321'))
+console.log(multiply('123456789', '0'))
