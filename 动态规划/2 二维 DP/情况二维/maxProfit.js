@@ -1,28 +1,31 @@
-// dp[i][0]表示当前持有 持有可能是当前买入或者前一天已经买入
-// dp[i][1]表示当前不持有 不持有可能是当前卖出或者前一天已经卖出
-const maxProfit = arr => {
-	const dp = new Array(arr.length).fill(() => new Array(2).fill(0))
-	dp[0][0] = -arr[0]
-	dp[0][1] = 0
-
-	for (let i = 1; i < arr.length; i++) {
-		dp[i][0] = Math.max(dp[i - 1][0], -arr[i])
-		dp[i][1] = Math.max(dp[i - 1][1], dp[i - 1][0] + arr[i])
+// 1. 贪心做法，因为我知道整个内容，所以我可以找到最高和最低最低，一减就行
+// 2. 但是这个最低一定在最高的前面，需要先买再卖
+var maxProfit = arr => {
+	let profit = -Infinity
+	let checkIn = Infinity
+	for (let p of arr) {
+		checkIn = Math.min(checkIn, p)
+		profit = Math.max(profit, p - checkIn)
 	}
-	return dp[arr.length - 1][1]
-}
-// 贪心方法
-// 遍历一次数组，记录最小值，同时记录result，由于只能先买后卖，同一个循环中就能够计算买入和卖出
-// 拆开来看，其实每两天就能算出一个收益，对于能够买卖多次的情况，其实我们只需要吧所有正收益都加起来就行了
-const greedy = arr => {
-	let result = -Infinity
-	let min = Infinity
-	for (let i = 0; i < arr.length; i++) {
-		min = Math.min(arr[i], min)
-		result = Math.max(result, arr[i] - min)
-	}
-	return result
+	return profit
 }
 
 console.log(maxProfit([7, 1, 5, 3, 6, 4]))
-console.log(greedy([7, 1, 5, 3, 6, 4]))
+
+// 1. dp 做法，需要分别保存当天持有和当天不持有的最大利润
+// 2. dp 含义 dp[i][0] 为当前持有， dp[i][1] 为当前不持有
+// 3. 递推公式-持有 (可能是今天买的，也可能是以前买的，选最大的一个) dp[i][0] = Math.max(dp[i-1][0],-arr[i])
+// 4. 递推公式-不持有 (可能是今天卖的，也可能是以前卖的) dp[i][1] = Math.max(dp[i-1][1],arr[i] + dp[i-1][0])
+// 5. 由递推公式我们知道，要先初始化 dp[0],从前向后遍历
+var maxProfit = arr => {
+	const dp = new Array(arr.length).fill().map(() => new Array(2).fill(0))
+	dp[0][0] = -arr[0]
+	for (let i = 1; i < arr.length; i++) {
+		dp[i][0] = Math.max(dp[i - 1][0], -arr[i])
+		dp[i][1] = Math.max(dp[i - 1][1], arr[i] + dp[i - 1][0])
+	}
+	// 最后一定要卖掉
+	return dp[arr.length - 1][1]
+}
+
+console.log(maxProfit([7, 1, 5, 3, 6, 4]))
