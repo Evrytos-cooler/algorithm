@@ -89,3 +89,73 @@ console.log(cache.get(3)) // 300
 cache.put(4, 400) // 淘汰 1
 console.log(cache.get(1)) // -1
 console.log(cache.get(4)) // 400
+
+// 需要实现 O(1) 的算法复杂度，就不能用遍历方法，比如 includes， 一般的解法是用链表，实现直接访问
+// 在 map 里保存的是链表 node，node 之间用链表相连，维护双向链表和head，tail
+// put 注意处理没有任何节点的情况，同时添加 head & tail
+// get 移动节点的时候需要先断开再链接，维护好所有的链接关系
+
+const Node = function (key, value) {
+	this.key = key
+	this.value = value
+	this.prev = null
+	this.next = null
+}
+
+var LRUCache = function (capacity) {
+	this.capacity = capacity
+	this.map = new Map()
+	this.head = null
+	this.tail = null
+}
+
+LRUCache.prototype.get = function (key) {
+	if (!this.map.has(key)) return -1
+	const node = this.map.get(key)
+	// 如果已经是头部，无需移动
+	if (node !== this.head) {
+		// 先断开 node
+		if (node.prev) node.prev.next = node.next
+		if (node.next) node.next.prev = node.prev
+		// 如果是尾部，更新 tail
+		if (node === this.tail) this.tail = node.prev
+		// 插入到头部
+		node.prev = null
+		node.next = this.head
+		if (this.head) this.head.prev = node
+		this.head = node
+	}
+	return node.value
+}
+
+LRUCache.prototype.put = function (key, value) {
+	if (this.map.has(key)) {
+		// 已存在，更新 value 并移动到头部
+		const node = this.map.get(key)
+		node.value = value
+		this.get(key) // 复用 get 逻辑移动到头部
+		return
+	}
+	// 新节点
+	const node = new Node(key, value)
+	// 超出容量，删除尾部
+	if (this.map.size === this.capacity) {
+		if (this.tail) {
+			this.map.delete(this.tail.key)
+			if (this.tail.prev) {
+				this.tail = this.tail.prev
+				this.tail.next = null
+			} else {
+				// 只有一个节点
+				this.head = null
+				this.tail = null
+			}
+		}
+	}
+	// 插入到头部
+	node.next = this.head
+	if (this.head) this.head.prev = node
+	this.head = node
+	if (!this.tail) this.tail = node
+	this.map.set(key, node)
+}
