@@ -1,16 +1,3 @@
-// const transferToTree = (list, root) => {
-// 	const arr = []
-// 	list.forEach(element => {
-// 		if (element.pid === root) {
-// 			const children = transferToTree(list, element.id)
-// 			if (children.length > 0) {
-// 				element.children = children
-// 			}
-// 			arr.push(element)
-// 		}
-// 	})
-// 	return arr
-// }
 //接受一个数组和一个根节点id，返回一个树形结构的数组
 const transferToTree = (list, pid) => {
 	//定一个结果集合
