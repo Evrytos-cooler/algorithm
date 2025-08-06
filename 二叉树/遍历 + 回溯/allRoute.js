@@ -1,18 +1,9 @@
-/**
- * Definition for a binary tree node.
- * function TreeNode(val, left, right) {
- *     this.val = (val===undefined ? 0 : val)
- *     this.left = (left===undefined ? null : left)
- *     this.right = (right===undefined ? null : right)
- * }
- */
+import TreeNode from '../生成和转换/generateTree.js'
 /**
  * @param {TreeNode} root
  * @param {number} target
  * @return {number[][]}
  */
-
-import TreeNode from '../generateTree.js'
 
 // 这里只是要求从根节点到叶子节点，如果是任意路径就难得多
 var pathTarget = function (root, target) {
@@ -39,17 +30,40 @@ var pathTarget = function (root, target) {
 	return result
 }
 
-// 使用迭代实现递归, 需要同时维护一个路径的栈
-var binaryTreePaths = function (root) {
-	// 用一个栈保存遍历的节点
+// 使用递归（回溯遍历）
+var pathTarget = function (root) {
 	if (!root) return []
-	// sync result & path
 	const result = []
+	const path = []
+	const trackBack = root => {
+		path.push(root.val)
+		if (!root.left && !root.right) {
+			const pathStr = path.reduce((prev, cur) => prev + '->' + cur)
+			result.push(pathStr)
+		}
+		root.left && trackBack(root.left)
+		root.right && trackBack(root.right)
+		path.pop()
+	}
+	trackBack(root)
+	return result
+}
+// 用迭代遍历所有 route 其实就是模拟递归
+// stack 用来模拟调用站
+// path 用来模拟入参
+var binaryTreePaths = function (root) {
+	if (!root) return []
+	// 用来收集结果
+	const result = []
+	// 用来存储当前的遍历路径
 	const path = [`${root.val}`]
+	// 用来模拟递归
 	const stack = [root]
+
 	while (stack.length) {
 		const node = stack.pop()
 		const route = path.pop()
+		// 收集结果
 		if (!node.left && !node.right) {
 			result.push(route)
 		}
@@ -75,3 +89,4 @@ node1.right = node3
 node2.left = node4
 node2.right = node5
 console.log(binaryTreePaths(node1))
+console.log(pathTarget(node1))
