@@ -53,5 +53,39 @@ root.right.left = new TreeNode(5)
 root.right.right = new TreeNode(7)
 root.right.right.right = new TreeNode(8)
 
-// const ans1 = converBST(root)
-const ans2 = converBSTTraversal(root)
+// 二叉树的递归遍历和迭代遍历
+// 递归遍历比较好理解
+// 迭代遍历要注意用空节点标记访问的时机
+const converBSTV2 = root => {
+	if (!root) return root
+	let sum = 0
+	const traversal = node => {
+		if (!node) return
+		node.right && traversal(node.right)
+		sum += node.val
+		node.val = sum
+		node.left && traversal(node.left)
+	}
+	return root
+}
+
+const converBSTV2Traversal = root => {
+	const stack = [root]
+	let sum = 0
+	while (root) {
+		const node = stack.pop()
+		if (node) {
+			// 后序遍历，反向入栈
+			root.left && stack.push(root.left)
+			stack.push(root, null)
+			root.right && stack.push(root.right)
+		} else {
+			// 消费
+			const node = stack.pop()
+			sum += node.val
+			node.val = sum
+		}
+	}
+	return root
+}
+const ans1 = converBST(root)
