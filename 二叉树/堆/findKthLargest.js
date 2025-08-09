@@ -41,3 +41,34 @@ console.log(findKthLargest([1, 2, 3, 4], 2))
 console.log(findKthLargest([1, 2, 3, 4], 1))
 console.log(findKthLargest([3, 2, 1, 5, 6, 4], 2))
 console.log(findKthLargest([3, 2, 3, 1, 2, 4, 5, 5, 6], 4))
+
+const findK = (arr, k) => {
+	// 堆化，自上而下
+	const heapify = (arr, start) => {
+		let max = start
+		const left = start * 2 + 1
+		const right = start * 2 + 2
+		if (left < arr.length && arr[start] > arr[left]) {
+			max = left
+		}
+		if (right < arr.length && arr[start] > arr[right]) {
+			max = right
+		}
+		if (max !== start) {
+			;[arr[max], arr[start]] = [arr[start], arr[max]]
+			heapify(arr, max)
+		}
+	}
+
+	const heap = arr.slice(0, k)
+	for (let i = Math.floor(heap.length / 2) - 1; i >= 0; i--) {
+		heapify(heap, i)
+	}
+
+	for (let i = k; i < arr.length; i++) {
+		if (arr[i] > heap[0]) {
+			heap[0] = arr[i]
+			heapify(heap, 0)
+		}
+	}
+}
