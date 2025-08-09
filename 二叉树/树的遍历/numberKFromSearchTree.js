@@ -1,4 +1,4 @@
-import TreeNode from '../generateTree.js'
+import TreeNode from '../生成和转换/generateTree.js'
 
 //平衡树
 const bst2 = new TreeNode(
@@ -36,12 +36,15 @@ const findNumberKFromTree = (node, k) => {
 	//用一个变形的中序遍历来将搜索树变成倒序的序列
 	let result = null
 	let count = 0
+	let breakPoint = false
 	const traversal = node => {
+		if (breakPoint) return
 		if (!node) return
 		node.right && traversal(node.right)
 		count++
 		if (count === k) {
 			result = node.val
+			breakPoint = true
 			return
 		}
 		node.left && traversal(node.left)
