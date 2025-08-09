@@ -33,11 +33,11 @@ const isSymmetricTreeV2 = root => {
 		let length = stack.length
 		for (let i = 0; i < length; i++) {
 			const node = stack.shift()
-			if (!node) continue
+			if (node.val === 'null') continue
 			if (node.left) stack.push(node.left)
-			else stack.push(null)
+			else stack.push(new TreeNode('null', null, null))
 			if (node.right) stack.push(node.right)
-			else stack.push(null)
+			else stack.push(new TreeNode('null', null, null))
 		}
 		if (!isSymmetric(stack.map(item => item?.val))) return false
 	}

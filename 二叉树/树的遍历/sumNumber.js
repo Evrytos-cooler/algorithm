@@ -1,4 +1,4 @@
-import TreeNode from '../generateTree.js'
+import TreeNode from '../生成和转换/generateTree.js'
 // 使用回溯很方便的解决 DFS
 const sumNumbers = function (root) {
 	if (!root) return 0
@@ -47,6 +47,29 @@ const sumNumbersV2 = function (root) {
 	return num
 }
 
+const sumNumberBFS = root => {
+	if (!root) return 0
+	const resultStack = [String(root.val)]
+	const stack = [root]
+	const result = []
+	while (stack.length) {
+		const node = stack.pop()
+		const value = resultStack.pop()
+		if (!node.left && !node.right) {
+			result.push(Number(value))
+		}
+		if (node.left) {
+			stack.push(node.left)
+			resultStack.push(value + String(node.left.val))
+		}
+		if (node.right) {
+			stack.push(node.right)
+			resultStack.push(value + String(node.right.val))
+		}
+	}
+	return result.reduce((prev, cur) => prev + cur)
+}
+
 const node1 = new TreeNode(4)
 const node2 = new TreeNode(9)
 const node3 = new TreeNode(0)
@@ -59,3 +82,4 @@ node2.right = node5
 
 console.log(sumNumbers(node1))
 console.log(sumNumbersV2(new TreeNode(0)))
+console.log(sumNumberBFS(node1))

@@ -85,3 +85,24 @@ const tree3 = new TreeNode(
 console.log(JSON.stringify(zigzagLevelOrder(tree1)))
 console.log(JSON.stringify(zigzagLevelOrder(tree2)))
 console.log(JSON.stringify(zigzagLevelOrder(tree3)))
+
+// 用递归也能够做， 我们不一定要一层一层的完成，只是最后返回一层一层的结构而已
+// 用一个层级作为 index 的数组就能够实现
+const zigzagBFS = root => {
+	if (!root) return []
+	const result = []
+	const bfs = (node, level) => {
+		if (!node) return
+		if (!result[level]) result.push([])
+		if (level % 2 === 0) {
+			result[level].push(node.val)
+		} else {
+			result[level].unshift(node.val)
+		}
+		bfs(node.left, level + 1)
+		bfs(node.right, level + 1)
+	}
+	return result
+
+	bfs(root, 0)
+}
