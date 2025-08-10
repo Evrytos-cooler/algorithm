@@ -33,37 +33,35 @@ function heapSort(arr) {
 	}
 }
 
-const headSortV2 = arr => {
-	//堆化
-	const heapify = (arr, n, i) => {
-		let max = i
-		const left = i * 2 + 1
-		const right = i * 2 + 2
-		if (left < n && arr[left] > arr[max]) {
+// 降序排列
+function heapSortV2(arr) {
+	const heapify = (arr, startIndex) => {
+		const max = startIndex
+		const left = startIndex * 2 + 1
+		const right = startIndex * 2 + 2
+		// 升序，所以是个大顶堆，随意 left < 父节点才执行
+		if (left < arr.length && arr[left] > arr[max]) {
 			max = left
 		}
-		if (right < n && arr[right] > arr[max]) {
+		if (right < arr.length && arr[right] > arr[max]) {
 			max = right
 		}
-		if (max !== i) {
-			;[arr[max], arr[i]] = [arr[i], arr[max]]
-			heapify(arr, n, max)
+
+		if (max !== startIndex) {
+			;[arr[startIndex], arr[max]] = [arr[max], arr[startIndex]]
+			heapify(arr, max)
 		}
 	}
-	//建堆
-	const n = arr.length
-	for (let i = Math.floor(n / 2) - 1; i >= 0; i--) {
-		heapify(arr, n, i)
+
+	//初始化
+	for (let i = Math.floor(arr.length / 2) - 1; i >= 0; i--) {
+		heapify(arr, i)
 	}
 
-	//排序
-	for (let i = arr.length - 1; i > 0; i--) {
-		;[arr[0], arr[i]] = [arr[i], arr[0]]
-		heapify(arr, i, 0)
+	// 排序过程
+	for (let i = 1; i < arr.length; i++) {
+		;[arr[0], arr[arr.length - 1]] = [arr[arr.length - 1], arr[0]]
+		heapify(arr, 0)
 	}
+	return arr
 }
-
-// 示例
-const unsortedArr = [19, 5, 7, 10, 11, 2, 14]
-headSortV2(unsortedArr)
-console.log('排序后的数组：', unsortedArr)
