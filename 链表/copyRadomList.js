@@ -10,6 +10,7 @@ function _Node(val, next, random) {
  * @return {_Node}
  */
 
+// 第一种解法我自己也看不懂了
 // 深拷贝一个链表，有 random 指针
 // 单向遍历链表，先构建 next 链表,用一个 map 维护 旧 - 新 的映射
 // 同步遍历新旧链表，构建 random 指针
@@ -83,3 +84,40 @@ copyRandomList(node5_1)
 const circle = new _Node(-1)
 circle.random = circle
 copyRandomList(circle)
+
+// 更清晰的解法：首先遍历原始链表， 无视 random 然后构建新链表(通过 map 处理环)
+// 再次遍历新旧链表， 通过 map 获取到旧链表random 对应的新链表值
+const copyRandomListV2 = list => {
+	if (!list) return list
+	const virtual = new _Node(null, null, null)
+	let newNode = virtual
+	let oldNode = list
+	const map = new Map()
+	const set = new Set()
+	while (!map.has(oldNode) && oldNode) {
+		newNode.next = new _Node(oldNode.val, null, null)
+		newNode = newNode.next
+		map.set(oldNode, newNode)
+		set.add(oldNode)
+		oldNode = oldNode.next
+	}
+
+	oldNode = list
+	newNode = virtual.next
+	// copy random
+	while (set.size > 0 && oldNode) {
+		if (oldNode.random) newNode.random = map.get(oldNode.random)
+		set.delete(oldNode)
+		oldNode = oldNode.next
+		newNode = newNode.next
+	}
+
+	return virtual.next
+}
+copyRandomListV2(test1)
+copyRandomListV2(node3_1)
+copyRandomListV2(node4_1)
+copyRandomListV2(node5_1)
+const circle = new _Node(-1)
+circle.random = circle
+copyRandomListV2(circle)

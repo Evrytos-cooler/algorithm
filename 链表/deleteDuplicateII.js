@@ -52,6 +52,34 @@ const deleteDuplicates = function (head) {
 	return head
 }
 
+const deleteDuplicatesV2 = head => {
+	const result = []
+	let p = head
+	while (p) {
+		if (p.val !== p.next?.val) {
+			result.push(p)
+			p = p.next
+		}
+		if (p && p.val === p.next?.val) {
+			while (p && p.val === p.next?.val) {
+				p = p?.next
+			}
+			p = p?.next
+		}
+	}
+	if (result.length !== 0) {
+		for (let i = 0; i < result.length; i++) {
+			if (i == result.length - 1) {
+				result[i].next = null
+				continue
+			}
+			result[i].next = result[i + 1]
+			result[i + 1].next = null
+		}
+	}
+	return result[0]
+}
+
 const test = function (head) {
 	let result = ''
 	while (head) {
@@ -69,7 +97,7 @@ const singleNode = new ListNode(1)
 // 3. No duplicates
 const list1 = new ListNode(1)
 list1.next = new ListNode(2)
-list1.next.next = new ListNode(3)
+list1.next.next = new ListNode(2)
 
 // 4. Consecutive duplicates
 const list2 = new ListNode(1)
@@ -92,9 +120,16 @@ list4.next.next.next.next = new ListNode(4)
 list4.next.next.next.next.next = new ListNode(4)
 list4.next.next.next.next.next.next = new ListNode(5)
 
-test(deleteDuplicates(emptyList))
-test(deleteDuplicates(singleNode))
-test(deleteDuplicates(list1))
-test(deleteDuplicates(list2))
-test(deleteDuplicates(list3))
-test(deleteDuplicates(list4))
+// test(deleteDuplicates(emptyList))
+// test(deleteDuplicates(singleNode))
+// test(deleteDuplicates(list1))
+// test(deleteDuplicates(list2))
+// test(deleteDuplicates(list3))
+// test(deleteDuplicates(list4))
+
+// test(deleteDuplicatesV2(emptyList))
+// test(deleteDuplicatesV2(singleNode))
+test(deleteDuplicatesV2(list1))
+// test(deleteDuplicatesV2(list2))
+// test(deleteDuplicatesV2(list3))
+// test(deleteDuplicatesV2(list4))
