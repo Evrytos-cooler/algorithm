@@ -1,3 +1,6 @@
+// 判断链表是否成环，并找出环所在位置
+// 数学严谨证明相遇点一定是环起点
+// 只要有环，每次多走一步最终一定会相遇
 const linkCycle = head => {
 	let slow = head
 	let fast = head

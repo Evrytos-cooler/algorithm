@@ -32,6 +32,7 @@ const isPalindromeV2 = function (head) {
 	let flag = true
 	let root = head
 	const traversal = node => {
+		if (flag === false) return
 		if (!node) return
 		traversal(node.next)
 		if (node.val !== root.val) {

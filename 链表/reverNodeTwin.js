@@ -1,4 +1,4 @@
-const reverNodeTwin = head => {
+const reverseNodeTwin = head => {
 	if (!head || !head.next) return head
 	const toLinkNode = []
 	let cur = head
