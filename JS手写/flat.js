@@ -1,13 +1,7 @@
 const flatArray = arr => {
 	const result = []
-	//reduce
-	const reduceFlat = arr => {
-		return arr.reduce((prev, cur) => {
-			return prev.concat(Array.isArray(cur) ? reduceFlat(cur) : cur)
-		}, [])
-	}
-	result.push(reduceFlat(arr))
-	//foreach
+	// 以下两种方法其实一样的
+	// foreach
 	const forEachFlat = arr => {
 		const res = []
 		arr.forEach(item => {
@@ -20,13 +14,7 @@ const flatArray = arr => {
 		return res
 	}
 	result.push(forEachFlat(arr))
-	//Regular Express
-	const Reflat = arr => {
-		const str = JSON.stringify(arr)
-		const target = '[' + str.replace(/\[|\]/, '') + ']'
-		return JSON.parse(target)
-	}
-	result.push(Reflat(arr))
+
 	//traversal
 	const traversalFlat = arr => {
 		const res = []
@@ -42,4 +30,27 @@ const flatArray = arr => {
 	result.push(traversalFlat(arr))
 	return result
 }
+
+const flagByReduce = arr => {
+	//reduce
+	const reduceFlat = arr => {
+		return arr.reduce((prev, cur) => {
+			return prev.concat(Array.isArray(cur) ? reduceFlat(cur) : cur)
+		}, [])
+	}
+	result.push(reduceFlat(arr))
+}
+
+const flagByReg = arr => {
+	const result = []
+	//Regular Express
+	const Reflat = arr => {
+		const str = JSON.stringify(arr)
+		const target = '[' + str.replace(/\[|\]/, '') + ']'
+		return JSON.parse(target)
+	}
+	result.push(Reflat(arr))
+	return result
+}
+
 console.log(flatArray([1, 2, 3, [4, 5, 6, [7, 8, 9]]])) // => [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]

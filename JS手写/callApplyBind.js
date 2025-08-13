@@ -22,12 +22,13 @@ Function.prototype.myApply = function (context, args) {
 
 //bind 做了什么， func.bind()
 // 传入需要绑定的context
-// 传入的剩余参数传入,函数柯里化
 // 对执行new的函数做特殊处理 -- bind绑定的this对new操作符是无效的
-// this是更改context的函数
+// 👆意思说 new 操作的优先级高于 bind
+// 原函数 + 固定 this + 预填参数 + new 时 this 失效
 Function.prototype.myBind = function (context = window, ...args) {
 	const self = this
 	const result = function (restArgs) {
+		// 使用 new 的时候，this 是新实例本身，否则是调用的环境
 		self.apply(this instanceof result ? this : context, restArgs.concat(args))
 	}
 	result.prototype = this.prototype

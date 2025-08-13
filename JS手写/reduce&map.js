@@ -1,4 +1,6 @@
 Array.prototype.myReduce = function (callback, init) {
+	if (this.length === 0)
+		throw new Error('TypeError: Reduce of empty array with no initial value')
 	let accumulator = init ?? this[0]
 	const startIndex = init === undefined ? 1 : 0
 	for (let i = startIndex; i < this.length; i++) {
@@ -23,8 +25,10 @@ const result1 = array.myReduce((prev, curr) => {
 const result2 = array.map((item, key) => {
 	return `${item}-${key}`
 })
-console.log(array.myReduce((prev, cur) => prev + cur, 10))
-console.log(array.myReduce((prev, cur) => prev + cur))
+// console.log(array.myReduce((prev, cur) => prev + cur, 10))
+// console.log(array.myReduce((prev, cur) => prev + cur))
 
-console.log(array.reduce((prev, cur) => prev + cur, 10))
-console.log(array.reduce((prev, cur) => prev + cur))
+// console.log(array.reduce((prev, cur) => prev + cur, 10))
+// console.log(array.reduce((prev, cur) => prev + cur))
+
+;[42].reduce((prev, cur) => prev + cur)

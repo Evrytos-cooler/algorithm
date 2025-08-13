@@ -47,11 +47,6 @@ function deepEqual(a, b, memo = new WeakMap()) {
 	const keysB = Object.keys(b)
 	if (keysA.length !== keysB.length) return false
 
-	// 属性名存在性检查
-	for (const key of keysA) {
-		if (!Object.prototype.hasOwnProperty.call(b, key)) return false
-	}
-
 	// 递归比较属性值
 	for (const key of keysA) {
 		if (!deepEqual(a[key], b[key], memo)) return false

@@ -1,4 +1,4 @@
-// Object.assign 将一个或者多个对象自身的可枚举属性浅拷贝到target上
+// Object.assign 将 **一个或者多个对象** **自身的可枚举属性** **浅拷贝** 到target上
 Object.prototype.myObjectAssign = (target, ...args) => {
 	const result = Object(target) // 基本类型则包装成对象，对象则直接返回
 	for (let resource of args) {
