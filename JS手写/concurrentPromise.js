@@ -87,6 +87,47 @@ function concurrentPromsie(maxConcurrent, promiseList) {
 	return run()
 }
 
+class concurrentPromsie {
+	constructor(promiseList, maxConcurrent) {
+		this.promiseList = promiseList.map((item, index) => ({ item, index }))
+		this.maxConcurrent = maxConcurrent
+		this.promiseLength = this.promiseList.length
+		this.runningCount = 0
+		this.settleCount = 0
+		this.allSettle = undefined
+		// 谁调用谁返回
+		this.promise = new Promise(resolve => {
+			this.allSettle = resolve
+		})
+		this.result = []
+	}
+
+	async run() {
+		const asyncFunc = async () => {
+			const readyToRunPromise = this.promiseList.pop()
+			this.runningCount++
+			const res = await readyToRunPromise.item()
+			this.result[readyToRunPromise.index] = res
+			this.settleCount++
+			this.runningCount--
+			if (this.settleCount === this.promiseLength) {
+				this.allSettle()
+			} else {
+				this.run()
+			}
+		}
+		const readyToRun = Math.min(
+			this.maxConcurrent - this.runningCount,
+			this.promiseList.length
+		)
+		if (readyToRun > 0) {
+			for (let i = 0; i < readyToRun; i++) {
+				asyncFunc()
+			}
+		}
+		return this.promise
+	}
+}
 const func1 = async () =>
 	new Promise(resolve => {
 		setTimeout(() => {
