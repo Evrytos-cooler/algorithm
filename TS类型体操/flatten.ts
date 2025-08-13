@@ -1,0 +1,5 @@
+type MyFlatten<arr extends any[]> = arr extends [infer first, ...infer rest]
+	? first extends any[]
+		? [...MyFlatten<first>, ...MyFlatten<rest>]
+		: [first, ...MyFlatten<rest>]
+	: []
