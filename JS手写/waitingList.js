@@ -1,3 +1,7 @@
+// 队列最长为 3
+// 新增任务要 200ms 后执行
+// 缓冲区有任务，推入会被取消
+// 发送队列满，头部会被取消
 class eventService {
 	constructor() {
 		this.runningArr = []
@@ -31,11 +35,15 @@ class eventService {
 			this.stopRunningTask()
 		}
 		this.runningArr.push({ time, id })
-		setTimeout(() => {
-			if (this.runningArr.find(item => item.id === id)) {
+
+		const taskTimeout = setTimeout(() => {
+			const index = this.runningArr.findIndex(item => item.id === id)
+			if (index !== -1) {
+				this.runningArr.splice(index, 1) // 完成后移除
 				console.log(Date.now(), id, '发送成功')
 			}
 		}, 2000)
+
 		console.log(Date.now(), id, '开始发送')
 	}
 

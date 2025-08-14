@@ -53,4 +53,16 @@ const flagByReg = arr => {
 	return result
 }
 
+const flagByReduceWithDepth = (arr, maxDepth) => {
+	const reduceFunc = (arr, depth) => {
+		if (depth > maxDepth) return []
+		return arr.reduce(
+			(prev, cur) =>
+				prev.concat(Array.isArray(cur) ? reduceFunc(cur, depth + 1) : cur),
+			[]
+		)
+	}
+	reduceFunc(arr, 0)
+}
+
 console.log(flatArray([1, 2, 3, [4, 5, 6, [7, 8, 9]]])) // => [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ]
