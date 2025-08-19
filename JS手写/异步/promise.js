@@ -47,6 +47,7 @@ class MyPromise {
 				this.onRejectCallback.push(() => {
 					try {
 						let result = onRejected(this.reason)
+						// 这里就是相较于 catch 的区别，then 不会将 reject 转化为 resolve 的 promise
 						reject(result)
 					} catch (e) {
 						reject(e)
@@ -76,6 +77,7 @@ class MyPromise {
 				try {
 					this.onRejectCallback.push(() => {
 						let result = onRejected(this.reason)
+						// then 也能够处理失败回调，为什么要有 catch？因为 catch 能够将 reject 修改为 resolve 的 Promise
 						resolve(result)
 					})
 				} catch (e) {

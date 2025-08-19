@@ -1,3 +1,4 @@
+// 实现一个带缓存的函数
 function asyncCache(fn) {
 	// 实现代码
 	const cache = new Map()
