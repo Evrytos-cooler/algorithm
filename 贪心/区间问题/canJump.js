@@ -1,4 +1,5 @@
-// 贪心，贪的是可达范围
+// https://leetcode.cn/problems/jump-game-ii/description/?envType=problem-list-v2&envId=greedy
+// 贪心，贪的是可达范围 能不能到
 const canJump = function (nums) {
 	if (nums.length === 1) return true
 	let range = nums[0]

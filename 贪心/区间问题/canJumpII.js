@@ -1,4 +1,6 @@
 // 贪心，贪的是当前步可选的*下一步*的可达范围
+// https://leetcode.cn/problems/jump-game-ii/description/?envType=problem-list-v2&envId=greedy
+// 最少几步能到
 const canJump = function (nums) {
 	if (nums.length <= 1) return 0
 	let range = nums[0]
