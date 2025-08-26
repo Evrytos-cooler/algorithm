@@ -16,9 +16,36 @@ const merge = s => {
 	}
 	return result
 }
+
+// 用戳气球的思路去做
+const mergeV2 = s => {
+	if (s.length < 2) return s
+	const arr = s.slice().sort((a, b) => a[0] - b[0])
+	const result = []
+	for (let i = 0; i < arr.length; i++) {
+		let start = arr[i][0]
+		let end = arr[i][1]
+		while (i < arr.length - 1 && arr[i + 1][0] <= end) {
+			end = Math.max(end, arr[i + 1][1])
+			i++
+		}
+		result.push([start, end])
+	}
+	return result
+}
 console.log(
-	merge([
-		[1, 3],
-		[2, 4],
-	])
+	JSON.stringify(
+		merge([
+			[1, 3],
+			[2, 4],
+		])
+	)
+)
+console.log(
+	JSON.stringify(
+		mergeV2([
+			[1, 3],
+			[2, 4],
+		])
+	)
 )
