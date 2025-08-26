@@ -31,6 +31,23 @@ var insert = function (intervals, newInterval) {
 	}
 	return result
 }
+
+// 用戳气球的思路去做，首先按照区间开始进行排序插入， 然后再做区间的合并，合并的内容给到新的数组
+const insertV2 = (intervals, newInterval) => {
+	const arr = [...intervals, newInterval].sort((a, b) => a[0] - b[0])
+
+	const result = []
+	for (let i = 0; i < arr.length; i++) {
+		let end = arr[i][1]
+		let start = arr[i][0]
+		while (i < arr.length - 1 && arr[i + 1][0] <= end) {
+			end = Math.max(arr[i + 1][1], end)
+			i++
+		}
+		result.push([start, end])
+	}
+	return result
+}
 // console.log(
 // 	JSON.stringify(
 // 		insert(
@@ -57,3 +74,4 @@ var insert = function (intervals, newInterval) {
 // 	)
 // )
 console.log(JSON.stringify(insert([[1, 5]], [2, 7])))
+console.log(JSON.stringify(insertV2([[1, 5]], [2, 7])))
